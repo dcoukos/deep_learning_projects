@@ -9,6 +9,9 @@ __pycache__/
 # Testing
 *.ipynb
 
+# Data
+data/
+
 # Distribution / packaging
 .Python
 build/
