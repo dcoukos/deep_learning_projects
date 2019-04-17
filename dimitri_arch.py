@@ -20,14 +20,15 @@ class Parallel_Net(nn.Module):
         # Size of conv2d tells you input layers and output layers.
         self.conv2 = nn.Conv2d(32, 64, kernel_size=3)
 
-        self.fc1 = nn.Linear(256, 200)
+        self.fc1 = nn.Linear(64, 200)
         self.fc2 = nn.Linear(200, 1)
         # self.out = nn.Linear(20, 1) #TODO: test w/ addtional Output Layer
 
     def forward(self, x):
         x = F.relu(F.max_pool2d(self.conv1(x), kernel_size=3, stride=3))
         x = F.relu(F.max_pool2d(self.conv2(x), kernel_size=2, stride=2))
-        x = F.relu(self.fc1(x.view(-1, 256)))
+        print(x.size())
+        x = F.relu(self.fc1(x.view(-1, 64)))
         x = F.relu(self.fc2(x.view(-1, 200)))
         x = torch.tanh(x)
         return x
@@ -43,6 +44,7 @@ def train_model(epochs=150, batch_size=100, lr=0.1):  # TODO: implement smart le
 
     for epoch in range (0, epochs):
         sum_loss = 0
+
         for batch in range(0, train_input.size(0), batch_size): # Check out these functions, the sizes dont match: 25 & 100
             mini_batch = train_input.narrow(0, batch, batch_size)
             loss = criterion(model(mini_batch).flatten(),
@@ -52,4 +54,9 @@ def train_model(epochs=150, batch_size=100, lr=0.1):  # TODO: implement smart le
             loss.backward() #What does this do again?
             optimizer.step() #includes model.train
 
-train_model()
+train_model(batch_size=1000)
+
+
+
+mini_batch = train_input.narrow(0, 0, 1000)
+model(mini_batch).size()
