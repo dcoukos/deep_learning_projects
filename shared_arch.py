@@ -28,7 +28,6 @@ class SharedWeight_Net(nn.Module):
     def forward(self, x):
         x = F.relu(self.conv1(x)) #12->12
         x = F.relu(F.max_pool2d(self.conv2(x), kernel_size=2, stride=2, dilation = 1)) #4 -> 2
-        print(x.size())
         x = F.relu(self.lin1(x.view(-1, 256)))
         x = F.relu(self.lin2(x.view(-1, 120)))
         x = F.relu(self.lin3(x.view(-1, 84)))
@@ -47,12 +46,13 @@ def train_model(model, train_input, train_target, batch_size=100, epochs=150):  
 
         for batch in range(0, train_input.size(0), batch_size): # Check out these functions, the sizes dont match: 25 & 100
             mini_batch = train_input.narrow(0, batch, batch_size)
+            print(mini_batch.size())
             print('lol1')
             print((model(mini_batch)).size())
             print('lol2')
             print(train_target.narrow(0, batch, batch_size).size())
             print('lol3')
-            loss = criterion(model(mini_batch).flatten(), train_target.narrow(0, batch, batch_size).float()) #might need to flatten
+            loss = criterion(model(mini_batch), train_target.narrow(0, batch, batch_size).long()) #might need to flatten
             sum_loss += loss.item() # item = to digit.
             model.zero_grad() #What does this do again?
             loss.backward() #What does this do again?
@@ -77,14 +77,13 @@ def compute_nb_errors(model, data_input, data_target):
 # TODO: niel's line
 
 train_input0, train_target0, train_classes0, \
-test_input, test_target, test_classes = dlc.generate_pair_sets(10)
+test_input, test_target, test_classes = dlc.generate_pair_sets(1000)
 
 
 train_input, _ = split_images(train_input0)
-train_target, _ = split_images(train_classes0)
+train_classes, _ = split_images(train_classes0)
 
-print(train_input)
-print(train_target[0])
+
 model = SharedWeight_Net()
 
-train_model(model, train_input, train_classes0, batch_size=100, epochs=150)
+train_model(model, train_input, train_classes, batch_size=100, epochs=150)
