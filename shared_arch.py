@@ -7,16 +7,11 @@ from torch.nn import functional as F
 import dlc_practical_prologue as dlc
 
 
-# TODO: niel's line
-train_input, train_target, train_classes, \
-test_input, test_target, test_classes = dlc.generate_pair_sets(1000)
-
 
 # Code for narrowing to first image
 def split_images(data):
-    data.size()
-    images1 = data.narrow(1,0,1).squeeze().size()
-    images2 = data.narrow(1,1,1).squeeze().size()
+    images1 = data.narrow(1,0,1).squeeze()
+    images2 = data.narrow(1,1,1).squeeze()
     return images1, images2
 
 class SharedWeight_Net(nn.Module):
@@ -40,12 +35,11 @@ class SharedWeight_Net(nn.Module):
         return x
 
 
-train_input, train_target = Variable(train_input), Variable(train_target)
 
-model = SharedWeight_Net()
 
-def train_model(epochs=150, batch_size=100, lr=0.1):  # TODO: implement smart learning rate
+def train_model(model, train_input, train_target, batch_size=100, epochs=150):  # TODO: implement smart learning rate
     criterion = torch.nn.CrossEntropyLoss() #Compare w/ softmargin loss
+    lr = 0.1;
     optimizer = optim.SGD(model.parameters(), lr=lr)
 
     for epoch in range (0, epochs):
@@ -53,11 +47,37 @@ def train_model(epochs=150, batch_size=100, lr=0.1):  # TODO: implement smart le
 
         for batch in range(0, train_input.size(0), batch_size): # Check out these functions, the sizes dont match: 25 & 100
             mini_batch = train_input.narrow(0, batch, batch_size)
-            loss = criterion(model(mini_batch).flatten(),
-                             train_target.narrow(0, batch, batch_size).float()) #might need to flatten
+            loss = criterion(model(mini_batch),
+                             train_target.narrow(0, batch, batch_size)) #might need to flatten
             sum_loss += loss.item() # item = to digit.
             model.zero_grad() #What does this do again?
             loss.backward() #What does this do again?
             optimizer.step() #includes model.train
 
-train_model(batch_size=100)
+        print('e {:d} error: {:0.2 f}%%'.format(epoch, compute_nb_errors(model, test_input, test_target) / test_input.size(0) * 100))
+
+def compute_nb_errors(model, data_input, data_target):
+
+    nb_data_errors = 0
+
+    for b in range(0, data_input.size(0), mini_batch_size):
+        output = model(data_input.narrow(0, b, mini_batch_size))
+        _, predicted_classes = torch.max(output.data, 1)
+        for k in range(mini_batch_size):
+            if data_target.data[b + k] != predicted_classes[k]:
+                nb_data_errors = nb_data_errors + 1
+
+    return nb_data_errors
+
+
+# TODO: niel's line
+
+train_input0, train_target0, train_classes0, \
+test_input, test_target, test_classes = dlc.generate_pair_sets(1000)
+
+
+train_input, _ = split_images(train_input0)
+train_target, _ = split_images(train_classes0)
+model = SharedWeight_Net()
+
+train_model(model, train_input, train_classes0, batch_size=100, epochs=150)
