@@ -12,6 +12,13 @@ train_input, train_target, train_classes, \
 test_input, test_target, test_classes = dlc.generate_pair_sets(1000)
 
 
+# Code for narrowing to first image
+def split_images(data):
+    data.size()
+    images1 = data.narrow(1,0,1).squeeze().size()
+    images2 = data.narrow(1,1,1).squeeze().size()
+    return images1, images2
+
 class SharedWeight_Net(nn.Module):
     def __init__(self):
         super(SharedWeight_Net, self).__init__()
