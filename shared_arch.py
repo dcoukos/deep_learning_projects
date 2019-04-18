@@ -10,8 +10,8 @@ import dlc_practical_prologue as dlc
 
 # Code for narrowing to first image
 def split_images(data):
-    images1 = data.narrow(1,0,1).squeeze()
-    images2 = data.narrow(1,1,1).squeeze()
+    images1 = data.narrow(1,0,1)
+    images2 = data.narrow(1,1,1)
     return images1, images2
 
 class SharedWeight_Net(nn.Module):
@@ -26,7 +26,7 @@ class SharedWeight_Net(nn.Module):
         # self.out = nn.Linear(20, 1) #TODO: test w/ addtional Output Layer
 
     def forward(self, x):
-        x = F.relu(self.conv1(x), kernel_size=2, stride=2, dilation = 1) #12->12
+        x = F.relu(self.conv1(x)) #12->12
         x = F.relu(F.max_pool2d(self.conv2(x), kernel_size=2, stride=2, dilation = 1)) #4 -> 2
         print(x.size())
         x = F.relu(self.lin1(x.view(-1, 256)))
@@ -39,7 +39,7 @@ class SharedWeight_Net(nn.Module):
 
 def train_model(model, train_input, train_target, batch_size=100, epochs=150):  # TODO: implement smart learning rate
     criterion = torch.nn.CrossEntropyLoss() #Compare w/ softmargin loss
-    lr = 0.1;
+    lr = 0.1
     optimizer = optim.SGD(model.parameters(), lr=lr)
 
     for epoch in range (0, epochs):
@@ -47,8 +47,12 @@ def train_model(model, train_input, train_target, batch_size=100, epochs=150):  
 
         for batch in range(0, train_input.size(0), batch_size): # Check out these functions, the sizes dont match: 25 & 100
             mini_batch = train_input.narrow(0, batch, batch_size)
-            loss = criterion(model(mini_batch),
-                             train_target.narrow(0, batch, batch_size)) #might need to flatten
+            print('lol1')
+            print((model(mini_batch)).size())
+            print('lol2')
+            print(train_target.narrow(0, batch, batch_size).size())
+            print('lol3')
+            loss = criterion(model(mini_batch).flatten(), train_target.narrow(0, batch, batch_size).float()) #might need to flatten
             sum_loss += loss.item() # item = to digit.
             model.zero_grad() #What does this do again?
             loss.backward() #What does this do again?
@@ -73,11 +77,14 @@ def compute_nb_errors(model, data_input, data_target):
 # TODO: niel's line
 
 train_input0, train_target0, train_classes0, \
-test_input, test_target, test_classes = dlc.generate_pair_sets(1000)
+test_input, test_target, test_classes = dlc.generate_pair_sets(10)
 
 
 train_input, _ = split_images(train_input0)
 train_target, _ = split_images(train_classes0)
+
+print(train_input)
+print(train_target[0])
 model = SharedWeight_Net()
 
 train_model(model, train_input, train_classes0, batch_size=100, epochs=150)
