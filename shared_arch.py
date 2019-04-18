@@ -50,9 +50,9 @@ def train_model(model, train_input, train_target, batch_size=100, epochs=150):  
             print('lol1')
             print((model(mini_batch)).size())
             print('lol2')
-            print(train_target.narrow(0, batch, batch_size).size())
+            print(train_target.narrow(0, batch, batch_size).flatten().size())
             print('lol3')
-            loss = criterion(model(mini_batch), train_target.narrow(0, batch, batch_size).long()) #might need to flatten
+            loss = criterion(model(mini_batch), train_target.narrow(0, batch, batch_size).flatten().long()) #might need to flatten
             sum_loss += loss.item() # item = to digit.
             model.zero_grad() #What does this do again?
             loss.backward() #What does this do again?

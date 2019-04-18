@@ -11,9 +11,12 @@ import dlc_practical_prologue as dlc
 train_input, train_target, train_classes, \
 test_input, test_target, test_classes = dlc.generate_pair_sets(10)
 
-for imagee in range(0, train_input.size(0)):
-    plt.imshow(train_input[2][0].view(14, 14).numpy(), cmap="gray")
+for imageind in range(0, train_input.size(0)):
+    plt.imshow(train_input[imageind][0].view(14, 14).numpy(), cmap="gray")
     plt.show()
+
+for targetee in range(0, train_classes.size(0)):
+    print(train_classes[targetee])
 
 
 transform = transforms.Compose([
