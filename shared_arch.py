@@ -4,7 +4,7 @@ from torch.autograd import Variable
 from torch import nn
 from torch.nn import functional as F
 
-import dlc_practical_prologue as dlc
+
 
 
 
@@ -22,7 +22,6 @@ class SharedWeight_Net(nn.Module):
         self.lin1 = nn.Linear(256,120)
         self. lin2 = nn.Linear(120,84)
         self.lin3 = nn.Linear(84,10)
-
         # self.out = nn.Linear(20, 1) #TODO: test w/ addtional Output Layer
 
     def forward(self, x):
@@ -33,12 +32,42 @@ class SharedWeight_Net(nn.Module):
         x = F.relu(self.lin3(x.view(-1, 84)))
         return x
 
+class Comparison_Net_Hot(nn.Module):
+    # this module takes as input a hot vector of size 20 (with all zeros and 1 at the place of the correct class) from the shared_weight net
+    def __init__(self):
+        super(Comparison_Net_Hot, self).__init__()
+        self.lin = nn.Linear(20,2)
 
+    def forward(self, x):
+        x = F.relu(self.lin(x.view(-1, 20)))
+        return x
 
+class Comparison_Net_Cold(nn.Module):
+    # this module takes as input a hot vector of size 2 (with the index of the correct class)
+    def __init__(self):
+        super(Comparison_Net_Cold, self).__init__()
+        self.lin1 = nn.Linear(2,10)
+        self.lin2 = nn.Linear(10, 2)
 
-def train_model(model, train_input, train_target, test_input, test_target, batch_size=100, epochs=150):  # TODO: implement smart learning rate
+    def forward(self, x):
+        x = F.relu(self.lin1(x.view(-1, 2)))
+        x = F.relu(self.lin2(x.view(-1, 10)))
+        return x
+
+class Comparison_Net_Cold_Minimal(nn.Module):
+    # this module takes as input a hot vector of size 2 (with the index of the correct class)
+    def __init__(self):
+        super(Comparison_Net_Cold_Minimal, self).__init__()
+        self.lin1 = nn.Linear(2,6)
+        self.lin2 = nn.Linear(6,2)
+
+    def forward(self, x):
+        x = F.relu(self.lin1(x.view(-1, 2)))
+        x = F.relu(self.lin2(x.view(-1, 6)))
+        return x
+
+def train_model(model, train_input, train_target, test_input, test_target, batch_size=100, epochs=150, lr = 0.01):  # TODO: implement smart learning rate
     criterion = torch.nn.CrossEntropyLoss() #Compare w/ softmargin loss
-    lr = 0.01
     optimizer = optim.SGD(model.parameters(), lr=lr)
 
     for epoch in range (0, epochs):
@@ -58,7 +87,8 @@ def train_model(model, train_input, train_target, test_input, test_target, batch
             loss.backward() #What does this do again?
             optimizer.step() #includes model.train
 
-        print('e {:d} error: {:0.2f}%%'.format(epoch, compute_nb_errors(model, test_input, test_target, batch_size) / test_input.size(0) * 100))
+        print('e {:d} error: {:0.2f}%'.format(epoch, compute_nb_errors(model, test_input, test_target, batch_size) / test_input.size(0) * 100))
+
 
 def compute_nb_errors(model, data_input, data_target, mini_batch_size):
 
@@ -73,20 +103,10 @@ def compute_nb_errors(model, data_input, data_target, mini_batch_size):
 
     return nb_data_errors
 
+def convert_to_hot(data_input):
+    #converts 1D array of class indices (from 0 to 9) into 2D array with 1rst dimension denoting the example and second the dimension of size 20 with ones at the corresponding index.
+    hot_data = torch.zeros(data_input.size()[0],20)
+    hot_data[torch.arange(data_input.size()[0]), data_input[:,0]] = 1
+    hot_data[torch.arange(data_input.size()[0]), data_input[:,1]+10] = 1
 
-# TODO: niel's line
-
-train_input0, train_target0, train_classes0, \
-test_input0, test_target0, test_classes0 = dlc.generate_pair_sets(1000)
-
-
-train_input, _ = split_images(train_input0)
-train_classes, _ = split_images(train_classes0)
-
-test_input, _ = split_images(test_input0)
-test_classes, _ = split_images(test_classes0)
-
-
-model = SharedWeight_Net()
-
-train_model(model, train_input, train_classes, test_input, test_classes, 100, 150)
+    return hot_data
