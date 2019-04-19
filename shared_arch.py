@@ -36,9 +36,9 @@ class SharedWeight_Net(nn.Module):
 
 
 
-def train_model(model, train_input, train_target, batch_size=100, epochs=150):  # TODO: implement smart learning rate
+def train_model(model, train_input, train_target, test_input, test_target, batch_size=100, epochs=150):  # TODO: implement smart learning rate
     criterion = torch.nn.CrossEntropyLoss() #Compare w/ softmargin loss
-    lr = 0.1
+    lr = 0.01
     optimizer = optim.SGD(model.parameters(), lr=lr)
 
     for epoch in range (0, epochs):
@@ -46,21 +46,21 @@ def train_model(model, train_input, train_target, batch_size=100, epochs=150):  
 
         for batch in range(0, train_input.size(0), batch_size): # Check out these functions, the sizes dont match: 25 & 100
             mini_batch = train_input.narrow(0, batch, batch_size)
-            print(mini_batch.size())
-            print('lol1')
-            print((model(mini_batch)).size())
-            print('lol2')
-            print(train_target.narrow(0, batch, batch_size).flatten().size())
-            print('lol3')
+            # print(mini_batch.size())
+            # print('lol1')
+            # print((model(mini_batch)).size())
+            # print('lol2')
+            # print(train_target.narrow(0, batch, batch_size).flatten().size())
+            # print('lol3')
             loss = criterion(model(mini_batch), train_target.narrow(0, batch, batch_size).flatten().long()) #might need to flatten
             sum_loss += loss.item() # item = to digit.
             model.zero_grad() #What does this do again?
             loss.backward() #What does this do again?
             optimizer.step() #includes model.train
 
-        print('e {:d} error: {:0.2 f}%%'.format(epoch, compute_nb_errors(model, test_input, test_target) / test_input.size(0) * 100))
+        print('e {:d} error: {:0.2f}%%'.format(epoch, compute_nb_errors(model, test_input, test_target, batch_size) / test_input.size(0) * 100))
 
-def compute_nb_errors(model, data_input, data_target):
+def compute_nb_errors(model, data_input, data_target, mini_batch_size):
 
     nb_data_errors = 0
 
@@ -77,13 +77,16 @@ def compute_nb_errors(model, data_input, data_target):
 # TODO: niel's line
 
 train_input0, train_target0, train_classes0, \
-test_input, test_target, test_classes = dlc.generate_pair_sets(1000)
+test_input0, test_target0, test_classes0 = dlc.generate_pair_sets(1000)
 
 
 train_input, _ = split_images(train_input0)
 train_classes, _ = split_images(train_classes0)
 
+test_input, _ = split_images(test_input0)
+test_classes, _ = split_images(test_classes0)
+
 
 model = SharedWeight_Net()
 
-train_model(model, train_input, train_classes, batch_size=100, epochs=150)
+train_model(model, train_input, train_classes, test_input, test_classes, 100, 150)
