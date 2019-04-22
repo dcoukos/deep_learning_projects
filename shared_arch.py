@@ -66,6 +66,17 @@ class Comparison_Net_Cold_Minimal(nn.Module):
         x = F.relu(self.lin2(x.view(-1, 6)))
         return x
 
+class Full_Net_Hot(nn.Module): # Niels: this is the combinated full net, that takes digit images (as couples) as input and outputs the comparison result. It is crafted from the two already trained individual networks that we already did: digit_classification_model and comparison_model, taken as inputs in the constructor
+    def __init__(self, digit_classification_model, comparison_model):
+        super(Full_Net_Hot, self).__init__() # I don't know the purpose of this line but i put it
+        self.digit_classification_model=digit_classification_model
+        self.comparison_model=comparison_model
+    def forward(self, x):
+        image1, image2 =split_images(x)
+        x1=digit_classification(image1)
+        x2=digit_classification(image2)
+        return comparison_model(x1, x2) # Might need to put a torch.cat((x1, x2), dim=0) here to feed the comparison model...
+
 def train_model(model, train_input, train_target, test_input, test_target, batch_size=100, epochs=150, lr = 0.01):  # TODO: implement smart learning rate
     criterion = torch.nn.CrossEntropyLoss() #Compare w/ softmargin loss
     optimizer = optim.SGD(model.parameters(), lr=lr)

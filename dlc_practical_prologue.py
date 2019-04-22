@@ -145,3 +145,7 @@ def generate_pair_sets(nb):
            mnist_to_pairs(nb, test_input, test_target)
 
 ######################################################################
+
+# Execution code:
+train_input, train_target, train_classes, test_input, test_target, test_classes=generate_pair_sets(1000) # We generate the 1000 training pairs of digit images (2x14x14)
+
