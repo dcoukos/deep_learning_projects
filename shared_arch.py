@@ -69,7 +69,7 @@ class Comparison_Net_Cold_Minimal(nn.Module):
         x = F.relu(self.lin2(x.view(-1, 6)))
         return x
 
-class Full_Net_Hot(nn.Module): # Niels: this is the combinated full net, that takes digit images (as couples) as input and outputs the comparison result. It is crafted from the two already trained individual networks that we already did: digit_classification_model and comparison_model, taken as inputs in the constructor
+class Full_Net_Cold(nn.Module): # Niels: this is the combinated full net, that takes digit images (as couples) as input and outputs the comparison result. It is crafted from the two already trained individual networks that we already did: digit_classification_model and comparison_model, taken as inputs in the constructor
     def __init__(self, digit_classification_model, comparison_model):
         super(Full_Net_Hot, self).__init__() # I don't know the purpose of this line but i put it
         self.digit_classification_model=digit_classification_model

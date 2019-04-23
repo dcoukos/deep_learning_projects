@@ -23,7 +23,7 @@
       <file leaf-file-name="dimitri_arch.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dimitri_arch.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="780">
+            <state relative-caret-position="165">
               <caret line="52" column="78" selection-start-line="52" selection-start-column="70" selection-end-line="52" selection-end-column="78" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
@@ -32,11 +32,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="shared_arch.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="shared_arch.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/shared_arch.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="131" column="60" selection-start-line="131" selection-start-column="60" selection-end-line="131" selection-end-column="60" />
+            <state relative-caret-position="319">
+              <caret line="83" lean-forward="true" selection-start-line="71" selection-end-line="83" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -44,11 +44,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Comparison_architectures.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Comparison_architectures.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Comparison_architectures.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="45" column="138" selection-start-line="45" selection-start-column="138" selection-end-line="45" selection-end-column="138" />
+            <state relative-caret-position="380">
+              <caret line="43" column="24" selection-start-line="43" selection-start-column="24" selection-end-line="43" selection-end-column="24" />
               <folding>
                 <element signature="e#0#36#0" expanded="true" />
               </folding>
@@ -418,16 +418,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dimitri_arch.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="780">
-          <caret line="52" column="78" selection-start-line="52" selection-start-column="70" selection-end-line="52" selection-end-column="78" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/anaconda3/lib/python3.7/site-packages/torch/nn/modules/conv.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="130">
@@ -473,10 +463,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/shared_arch.py">
+    <entry file="file://$PROJECT_DIR$/dimitri_arch.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="131" column="60" selection-start-line="131" selection-start-column="60" selection-end-line="131" selection-end-column="60" />
+        <state relative-caret-position="165">
+          <caret line="52" column="78" selection-start-line="52" selection-start-column="70" selection-end-line="52" selection-end-column="78" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>
@@ -485,10 +475,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Comparison_architectures.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="45" column="138" selection-start-line="45" selection-start-column="138" selection-end-line="45" selection-end-column="138" />
+        <state relative-caret-position="380">
+          <caret line="43" column="24" selection-start-line="43" selection-start-column="24" selection-end-line="43" selection-end-column="24" />
           <folding>
             <element signature="e#0#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shared_arch.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="319">
+          <caret line="83" lean-forward="true" selection-start-line="71" selection-end-line="83" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
           </folding>
         </state>
       </provider>

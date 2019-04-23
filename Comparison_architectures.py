@@ -41,6 +41,6 @@ train_model(model_comparison, train_classes0.float(), train_target0, test_classe
 #2do compare results with Net Cold Minimal and with Net Hot (keeping the probabilities for every digit)
 
 print('Results of the full net (with net cold minimal)')
-Full_Model=Full_Net_Hot(model_shared, model_comparison) # Constructing the full net from the above-trained models
+Full_Model=Full_Net_Cold(model_shared, model_comparison) # Constructing the full net from the above-trained models
                                                         # The BUG is here !
 print('error: {:0.2f}%'.format(compute_nb_errors(Full_Model, test_input0, test_target0, mini_batch_size=100) / test_input0.size(0) * 100))
