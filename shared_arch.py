@@ -71,7 +71,7 @@ class Comparison_Net_Cold_Minimal(nn.Module):
 
 class Full_Net_Cold(nn.Module): # Niels: this is the combinated full net, that takes digit images (as couples) as input and outputs the comparison result. It is crafted from the two already trained individual networks that we already did: digit_classification_model and comparison_model, taken as inputs in the constructor
     def __init__(self, digit_classification_model, comparison_model):
-        super(Full_Net_Hot, self).__init__() # I don't know the purpose of this line but i put it
+        super(Full_Net_Cold, self).__init__() # I don't know the purpose of this line but i put it
         self.digit_classification_model=digit_classification_model
         self.comparison_model=comparison_model
     def forward(self, x):
@@ -80,6 +80,19 @@ class Full_Net_Cold(nn.Module): # Niels: this is the combinated full net, that t
         x2=self.digit_classification_model(image2) #returns a tensor of size n x 10
         # we want to get n x 2 with the index
         x =  convert_hothot_to_digitdigit(x1, x2)
+        return self.comparison_model(x) # Might need to put a torch.cat((x1, x2), dim=0) here to feed the comparison model...
+
+class Full_Net_Hot(nn.Module): # Niels: this is the combinated full net, that takes digit images (as couples) as input and outputs the comparison result. It is crafted from the two already trained individual networks that we already did: digit_classification_model and comparison_model, taken as inputs in the constructor
+    def __init__(self, digit_classification_model, comparison_model):
+        super(Full_Net_Hot, self).__init__() # I don't know the purpose of this line but i put it
+        self.digit_classification_model=digit_classification_model
+        self.comparison_model=comparison_model
+    def forward(self, x):
+        image1, image2 =split_images(x)
+        x1=self.digit_classification_model(image1) #returns a tensor of size n x 10
+        x2=self.digit_classification_model(image2) #returns a tensor of size n x 10
+        # we want to get n x 2 with the index
+        x =  torch.cat((x1, x2), dim=1)
         return self.comparison_model(x) # Might need to put a torch.cat((x1, x2), dim=0) here to feed the comparison model...
 
 def train_model(model, train_input, train_target, test_input, test_target, batch_size=100, epochs=150, lr = 0.01):  # TODO: implement smart learning rate

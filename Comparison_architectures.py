@@ -20,27 +20,32 @@ test_classes, _ = split_images(test_classes0)
 # #training the SharedWeight_Net
 print('Shared Weight Net')
 model_shared = SharedWeight_Net()
-train_model(model_shared, train_input, train_classes, test_input, test_classes, 100, 150, 0.01)
+train_model(model_shared, train_input, train_classes, test_input, test_classes, 100, 150, 0.005)
 
 #training the comparison_Net
 print('Comparison Net Hot')
-model_comparison = Comparison_Net_Hot()
-train_model(model_comparison, convert_to_hot(train_classes0), train_target0, convert_to_hot(test_classes0), test_target0, 100, 150, 0.2)
+net_hot = Comparison_Net_Hot()
+train_model(net_hot, convert_to_hot(train_classes0), train_target0, convert_to_hot(test_classes0), test_target0, 100, 150, 0.2)
 # with lr = 0.01 final error 16%, 0.005 31%, 0.05 2.3%, lr = 0.2 0%
 
 print('Comparison Net Cold')
 model_comparison = Comparison_Net_Cold()
-train_model(model_comparison, train_classes0.float(), train_target0, test_classes0.float(), test_target0, 100, 150, 0.05)
+train_model(model_comparison, train_classes0.float(), train_target0, test_classes0.float(), test_target0, 100, 150, 0.005)
 # with lr = 0.01 final error 8.5 %, 0.005 9%, 0.5 0%
 
 print('Comparison Net Cold Minimal')
-model_comparison = Comparison_Net_Cold_Minimal()
-train_model(model_comparison, train_classes0.float(), train_target0, test_classes0.float(), test_target0, 100, 150, 0.5)
+net_cold_minimal = Comparison_Net_Cold_Minimal()
+train_model(net_cold_minimal, train_classes0.float(), train_target0, test_classes0.float(), test_target0, 100, 150, 0.5)
 # with lr = 0.5 final error 0 %
 
 #2do compare results with Net Cold Minimal and with Net Hot (keeping the probabilities for every digit)
 
 print('Results of the full net (with net cold minimal)')
-Full_Model=Full_Net_Cold(model_shared, model_comparison) # Constructing the full net from the above-trained models
+Full_Model_Cold=Full_Net_Cold(model_shared, net_cold_minimal) # Constructing the full net from the above-trained models
                                                         # The BUG is here !
-print('error: {:0.2f}%'.format(compute_nb_errors(Full_Model, test_input0, test_target0, mini_batch_size=100) / test_input0.size(0) * 100))
+print('error: {:0.2f}%'.format(compute_nb_errors(Full_Model_Cold, test_input0, test_target0, mini_batch_size=100) / test_input0.size(0) * 100))
+
+print('Results of the full net (with net hot)')
+Full_Model_Hot=Full_Net_Hot(model_shared, net_hot) # Constructing the full net from the above-trained models
+                                                        # The BUG is here !
+print('error: {:0.2f}%'.format(compute_nb_errors(Full_Model_Hot, test_input0, test_target0, mini_batch_size=100) / test_input0.size(0) * 100))
