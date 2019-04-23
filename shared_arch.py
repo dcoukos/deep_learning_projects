@@ -15,6 +15,7 @@ def split_images(data):
     return images1, images2
 
 class SharedWeight_Net(nn.Module):
+    #takes as input a 14x14 image and returns a tensor with 10 entries for 10 class scores
     def __init__(self):
         super(SharedWeight_Net, self).__init__()
         self.conv1 = nn.Conv2d(1, 6, kernel_size=(3, 3), stride=(1, 1)) #14->12
@@ -34,6 +35,7 @@ class SharedWeight_Net(nn.Module):
 
 class Comparison_Net_Hot(nn.Module):
     # this module takes as input a hot vector of size 20 (with all zeros and 1 at the place of the correct class) from the shared_weight net
+    # and returns two activations (that will correspond to "bigger" neuron or to "smaller or/equal" neuron)
     def __init__(self):
         super(Comparison_Net_Hot, self).__init__()
         self.lin = nn.Linear(20,2)
@@ -44,6 +46,7 @@ class Comparison_Net_Hot(nn.Module):
 
 class Comparison_Net_Cold(nn.Module):
     # this module takes as input a hot vector of size 2 (with the index of the correct class)
+    # -> can be replaced by Comparison_Net_Cold_Minimal
     def __init__(self):
         super(Comparison_Net_Cold, self).__init__()
         self.lin1 = nn.Linear(2,10)
@@ -73,9 +76,11 @@ class Full_Net_Hot(nn.Module): # Niels: this is the combinated full net, that ta
         self.comparison_model=comparison_model
     def forward(self, x):
         image1, image2 =split_images(x)
-        x1=digit_classification(image1)
-        x2=digit_classification(image2)
-        return comparison_model(x1, x2) # Might need to put a torch.cat((x1, x2), dim=0) here to feed the comparison model...
+        x1=self.digit_classification_model(image1) #returns a tensor of size n x 10
+        x2=self.digit_classification_model(image2) #returns a tensor of size n x 10
+        # we want to get n x 2 with the index
+        x =  convert_hothot_to_digitdigit(x1, x2)
+        return self.comparison_model(x) # Might need to put a torch.cat((x1, x2), dim=0) here to feed the comparison model...
 
 def train_model(model, train_input, train_target, test_input, test_target, batch_size=100, epochs=150, lr = 0.01):  # TODO: implement smart learning rate
     criterion = torch.nn.CrossEntropyLoss() #Compare w/ softmargin loss
@@ -121,3 +126,10 @@ def convert_to_hot(data_input):
     hot_data[torch.arange(data_input.size()[0]), data_input[:,1]+10] = 1
 
     return hot_data
+
+def convert_hothot_to_digitdigit(hot1, hot2):
+    #converts two hot vectors (nx10) to nx2 with the two numbers being the most probable digits of the hot vectors
+    digit1 = torch.argmax(hot1, dim=1, keepdim=True).float()
+    digit2 = torch.argmax(hot2, dim=1, keepdim=True).float()
+    digitdigit = torch.cat((digit1, digit2), dim=1)
+    return digitdigit
