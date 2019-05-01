@@ -11,9 +11,6 @@ import dlc_practical_prologue as dlc
 train_input, train_target, train_classes, \
 test_input, test_target, test_classes = dlc.generate_pair_sets(1000)
 
-train_input.size()
-train_input.narrow(1,0,1).squeeze().size()
-
 class Parallel_Net(nn.Module):
     def __init__(self):
         super(Parallel_Net, self).__init__()
