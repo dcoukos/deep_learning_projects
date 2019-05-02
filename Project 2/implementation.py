@@ -3,7 +3,9 @@ import config
 from modules import Linear, Sequential, ReLU
 import dlc_practical_prologue as prologue
 
-# TODO: Import Data
+
+config.debug = False
+
 train, train_label, test, test_label = prologue.load_data(one_hot_labels=True,
                                                           normalize=True)
 
@@ -17,7 +19,6 @@ eta = 0.1/nb_samples # This is for compatibility w/ sigma
 train_label = train_label*zeta
 test_label = test_label*zeta
 # TODO: Implement multilayered architecture
-config.debug = True
 architecture = Sequential(train_label,
                           Linear(784, 100, 'relu'),
                           ReLU(),
@@ -27,3 +28,4 @@ architecture = Sequential(train_label,
 
 # TODO: update over 100 epochs.
 architecture.forward(train)
+architecture.backward()
