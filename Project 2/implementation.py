@@ -4,10 +4,14 @@ from modules import Linear, Sequential, ReLU
 import dlc_practical_prologue as prologue
 
 
-config.debug = False
+config.show_calls = False
+config.show_shapes = False
 
 train, train_label, test, test_label = prologue.load_data(one_hot_labels=True,
                                                           normalize=True)
+
+train.shape
+train_label.shape
 
 nb_classes = train_label.size(1)
 features = train.size(1)
@@ -21,9 +25,7 @@ test_label = test_label*zeta
 # TODO: Implement multilayered architecture
 architecture = Sequential(train_label,
                           Linear(784, 100, 'relu'),
-                          ReLU(),
-                          Linear(100, 10, 'relu'),
-                          ReLU())
+                          Linear(100, 10, 'relu'))
 
 
 # TODO: update over 100 epochs.

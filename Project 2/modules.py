@@ -27,45 +27,52 @@ class Module(object):
 class Linear(Module):
     '''Write docblock.'''
     def __init__(self, in_dim, out_dim, act_fn):
-        if config.debug:
+        if config.show_calls:
             print('--- initializing Linear ---')
         self.in_dim = in_dim
         self.out_dim = out_dim
         self.weights, self.bias = xavier_initialization(act_fn, in_dim,
                                                         out_dim, 'relu')
-        self.prev_x = torch.Tensor()
         self.dl_dw = torch.empty(self.weights.shape)
         self.dl_db = torch.empty(self.bias.shape)
+        if act_fn == 'relu':
+            self.activation = ReLU()
+        self.prev_x = None
 
     def forward(self, input):  # Why *input vs. input?
         '''Applies forward linear transformation on the data'''
         input = input[:, None]
-        if config.debug:
+        if config.show_calls:
             print('    *Calling Linear.forward()')
         self.prev_x = input
-        output = self.weights.mm(input) + self.bias
-        return output.squeeze()
+        layer_output = self.weights.mm(input) + self.bias
+        act_output = self.activation.forward(layer_output)
+        return act_output.squeeze()
+        # TODO: update sequential.forward to store values appropriately.
 
-    def backward(self, dl_ds):
-        #dl_ds represents the effect of the output of this layer on the loss
+    def backward(self, dl_dx):
+        # dl_ds represents the effect of the output of this layer on the loss
         # backward pass is intended to be called for each data point.
-        if config.debug:
+        if config.show_calls:
             print('    *Calling Linear.backward()')
 
         # DEBUG
-        print('dl_ds shape: ', dl_ds.shape)
-        print('weights shape: ', self.weights.shape)
-        print('biases shape: ', self.biases.shape)
-        print('prev_dl_dx shape: ', self.weights.t().mv(dl_ds).shape)
-        print('dl_dw shape: ', (dl_ds.view(-1, 1).mm(prev_x.view(-1, 1))).shape)
-        print('dl_db shape: ', dl_ds.shape)
+        dl_ds = self.activation.backward(dl_dx).squeeze()
+        # .squeeze should make it work with .mv
         prev_dl_dx = self.weights.t().mv(dl_ds)
-        self.dl_dw.add_(dl_ds.view(-1, 1).mm(prev_x.view(-1, 1)))
-        self.dl_db.add_(dl_ds)
-        return prev_dl_dx
+        self.dl_dw.add_(dl_ds.view(-1, 1).mm(self.prev_x.view(-1, 1).t()))
+        self.dl_db.add_(dl_ds.view(-1, 1))
+        if config.show_shapes:
+            print('dl_ds shape: ', dl_ds.shape)
+            print('weights shape: ', self.weights.shape)
+            print('biases shape: ', self.bias.shape)
+            print('prev_dl_dx shape: ', self.weights.t().mv(dl_ds).shape)
+            print('dl_dw shape: ', (dl_ds.view(-1, 1).mm(
+                                    self.prev_x.view(-1, 1).t())).shape)
+        return prev_dl_dx.view(-1, 1)
 
     def sgd(eta):
-        if config.debug:
+        if config.show_calls:
             print('    *Calling Linear.sgd()')
         self.weights = self.weights - eta*self.dl_dw
         self.bias = self.bias - eta*self.dl_db
@@ -77,56 +84,65 @@ class Linear(Module):
 class ReLU(Module, Activation):
     '''Doc block!'''
     def __init__(self):
-        if config.debug:
+        if config.show_calls:
             print('--- initializing ReLU ---')
         self.prev_s = torch.Tensor()
 
     def forward(self, input):
-        if config.debug:
+        if config.show_calls:
             print('    *Calling ReLU.forward()')
         self.prev_s = input
         return relu(input)
 
     def backward(self, dl_dx):
         '''Sub-derivatives  in {0,1}'''
-        if config.debug:
+        if config.show_calls:
             print('   *Calling ReLU.backward()')
-        return relu(self.prev_s)*(dl_dx)
+        if config.show_shapes:
+            print('   shape prev_s: ', self.prev_s.shape)
+            print('   shape dl_dx: ', dl_dx.view(-1, 1).shape)  # Nice! 1D ->2D
+            # This makes the multiplication work correctly (doesn't make
+            # shape 10x10, but instead (10*1)*(10*1) -> (10*1))
+        return relu(self.prev_s)*(dl_dx.view(-1, 1))
 
 
 class Sequential(Module):
     def __init__(self, target, *modules):
-        if config.debug is None:
+        if config.show_calls is None or config.show_shapes is None:
             raise NotImplementedError('You forgot to define debug state.')
-        if config.debug:
+        if config.show_calls:
             print('--- Creating a sequential architecture ---')
         self.modules = modules
-        if not isinstance(self.modules[-1], Activation):
-            raise Exception('Last module must be an activation function')
-        self.output = torch.Tensor()
+        self.output = []
         self.target = target
+        self.dloss = []
 
     def forward(self, input):
-        if config.debug:
+        if config.show_calls:
             print('    *Calling Sequential.forward()')
         for sample in input:
             output = sample
             for module in self.modules:
                 output = module.forward(output)
-        self.output = output
-        return loss(output, self.target)  # TODO: confirm this value gets reassigned.
+            # do this lower self.dloss.append(dloss(output, self.target))
+            self.output.append(output)
+        return loss(output, self.target).item()
 
     def backward(self):
-        if config.debug:
+        if config.show_calls:
             print('    *Calling Sequential.backward()')
-        dl_dx = dloss(self.output, self.target)
-        for sample in input:
-            output = sample #TODO: how to make backward run on each sample...
+        for index, sample_output in enumerate(self.output):  # dl_dx is the delta loss for each sample
+            if config.show_shapes:
+                print('   Shape output: ', sample_output.shape)
+                print('   Shape target: ', self.target[index].shape)
+            dl_dx = dloss(sample_output, self.target[index])
             for module in reversed(self.modules):
-                module.backward(dl_dx)
+                if config.show_shapes:
+                    print("dl_dx shape: ", dl_dx.shape)
+                dl_dx = module.backward(dl_dx)
 
     def sgd(self, eta):
-        if config.debug:
+        if config.show_calls:
             print('    *Calling Sequential.sgd()')
         for module in self.modules:
             module.sgd(eta)
