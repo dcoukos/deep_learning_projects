@@ -5,7 +5,7 @@ import config
 
 def xavier_initialization(act_fn, in_dim, out_dim, bias, gain=1):
     '''simplified xavier function to initialize weights '''
-    if config.debug:
+    if config.show_calls:
         print('--- using Xavier ---')
     if act_fn == 'relu':
         gain = math.sqrt(2.0)
@@ -13,7 +13,7 @@ def xavier_initialization(act_fn, in_dim, out_dim, bias, gain=1):
     parameters = torch.empty(out_dim, in_dim + 1).normal_(0, std)
     weights = parameters.narrow(1, 0, in_dim)
     bias = parameters.narrow(1, in_dim, 1)
-    if config.debug:
+    if config.show_shapes:
         print('\txavier_initialization shapes\nWeights: ', str(weights.shape),\
               '\nBias: ', str(bias.shape))
     return weights, bias

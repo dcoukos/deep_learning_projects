@@ -37,6 +37,8 @@ class Linear(Module):
         self.dl_db = torch.empty(self.bias.shape)
         if act_fn == 'relu':
             self.activation = ReLU()
+        if act_fn == 'sigma':
+            self.activation = Sigma()
         self.prev_x = None
 
     def forward(self, input):  # Why *input vs. input?
@@ -62,6 +64,7 @@ class Linear(Module):
         prev_dl_dx = self.weights.t().mv(dl_ds)
         self.dl_dw.add_(dl_ds.view(-1, 1).mm(self.prev_x.view(-1, 1).t()))
         self.dl_db.add_(dl_ds.view(-1, 1))
+
         if config.show_shapes:
             print('dl_ds shape: ', dl_ds.shape)
             print('weights shape: ', self.weights.shape)
@@ -71,14 +74,18 @@ class Linear(Module):
                                     self.prev_x.view(-1, 1).t())).shape)
         return prev_dl_dx.view(-1, 1)
 
-    def sgd(eta):
+    def update(self, eta):
         if config.show_calls:
             print('    *Calling Linear.sgd()')
+        '''
+        print('Finding differences in wieghts')
+        print(self.weights[0])'''
         self.weights = self.weights - eta*self.dl_dw
+        '''print(self.weights[0])'''
         self.bias = self.bias - eta*self.dl_db
-
-    def update(self, *input):
-        pass
+        self.dl_dw = torch.empty(self.weights.shape)
+        self.dl_db = torch.empty(self.bias.shape)
+        self.prev_x = None
 
 
 class ReLU(Module, Activation):
@@ -106,6 +113,31 @@ class ReLU(Module, Activation):
         return relu(self.prev_s)*(dl_dx.view(-1, 1))
 
 
+class Sigma(Module, Activation):
+    '''Doc block!'''
+    def __init__(self):
+        if config.show_calls:
+            print('--- initializing Sigma ---')
+        self.prev_s = torch.Tensor()
+
+    def forward(self, input):
+        if config.show_calls:
+            print('    *Calling Sigma.forward()')
+        self.prev_s = input
+        return sigma(input)
+
+    def backward(self, dl_dx):
+        '''Sub-derivatives  in {0,1}'''
+        if config.show_calls:
+            print('   *Calling Sigma.backward()')
+        if config.show_shapes:
+            print('   shape prev_s: ', self.prev_s.shape)
+            print('   shape dl_dx: ', dl_dx.view(-1, 1).shape)  # Nice! 1D ->2D
+            # This makes the multiplication work correctly (doesn't make
+            # shape 10x10, but instead (10*1)*(10*1) -> (10*1))
+        return dsigma(self.prev_s)*(dl_dx.view(-1, 1))
+
+
 class Sequential(Module):
     def __init__(self, target, *modules):
         if config.show_calls is None or config.show_shapes is None:
@@ -113,19 +145,25 @@ class Sequential(Module):
         if config.show_calls:
             print('--- Creating a sequential architecture ---')
         self.modules = modules
-        self.output = []
+        self.output = torch.empty(1000, 10)
         self.target = target
         self.dloss = []
 
     def forward(self, input):
         if config.show_calls:
             print('    *Calling Sequential.forward()')
-        for sample in input:
+        for index, sample in enumerate(input):
             output = sample
             for module in self.modules:
-                output = module.forward(output)
-            # do this lower self.dloss.append(dloss(output, self.target))
-            self.output.append(output)
+                output = module.forward(output) # TODO: check that this actually updates.
+
+            self.output[index] = output
+        '''
+        print('output shape: ', self.output.shape)
+        print(self.output[0])
+        print('target shape: ', self.target.shape)
+        print(self.target[0])'''
+
         return loss(output, self.target).item()
 
     def backward(self):
@@ -141,8 +179,10 @@ class Sequential(Module):
                     print("dl_dx shape: ", dl_dx.shape)
                 dl_dx = module.backward(dl_dx)
 
-    def sgd(self, eta):
+    def update(self, eta):
         if config.show_calls:
-            print('    *Calling Sequential.sgd()')
+            print('    *Calling Sequential.update()')
         for module in self.modules:
-            module.sgd(eta)
+            module.update(eta)
+        self.output = torch.empty(1000, 10)
+        self.dloss = []
