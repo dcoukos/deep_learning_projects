@@ -17,4 +17,4 @@ printing =True
 
 # Training :
 print('Training full net')
-train_model(model, train_image_pairs, train_digit_classes, train_comparison_target, test_image_pairs, test_comparison_target, AUX_LOSS_coef=0.1, batch_size=100, epochs=150, lr = 0.01, printing = True)
+train_model(model, train_image_pairs, train_digit_classes, train_comparison_target, test_image_pairs, test_comparison_target, AUX_LOSS_coef, batch_size, epochs, lr, printing)
