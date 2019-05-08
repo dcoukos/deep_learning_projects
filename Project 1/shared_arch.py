@@ -33,8 +33,7 @@ class SharedWeight_Net(nn.Module):
         x = F.relu(self.lin3(x.view(-1, 84)))
         return x
 
-class SharedWeight_Net2(nn.Module):
-    #takes as input a 14x14 image and returns a tensor with 10 entries for 10 class scores
+class SharedWeight_Net2(nn.Module): # This is different from SharedWeight_Net, it is inspired more from the model given in the course as example, and has more parameters ( closer to the 70'000 asked in the project description).
     def __init__(self):
         super(SharedWeight_Net2, self).__init__()
         self.conv1 = nn.Conv2d(1, 32, kernel_size=(3, 3), stride=(1, 1)) #14->12
@@ -128,7 +127,7 @@ def train_model(model, train_input, train_target, test_input, test_target, batch
             loss.backward() #What does this do again?
             optimizer.step() #includes model.train
         if printing == True:
-            print('e {:d} error: {:0.2f}%'.format(epoch, compute_nb_errors(model, test_input, test_target, batch_size) / test_input.size(0) * 100))
+            print('epoch {:d} error: {:0.2f}%'.format(epoch, compute_nb_errors(model, test_input, test_target, batch_size) / test_input.size(0) * 100))
 
 
 def compute_nb_errors(model, data_input, data_target, mini_batch_size):

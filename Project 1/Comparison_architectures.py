@@ -57,7 +57,7 @@ def count_parameters(model):
 # print('test error: {:0.2f}%'.format(compute_nb_errors(model_comparison, test_classes0.float(), test_target0, 50) / test_classes0.size(0) * 100))
 #
 
-print('Comparison Net Cold Minimal')
+print('Comparison Net Cold Minimal') # This one freaks out !
 net_cold_minimal = Comparison_Net_Cold_Minimal()
 train_model(net_cold_minimal, train_classes0.float(), train_target0, val_classes0.float(), val_target0, 100, 150, 0.5)
 print('test error: {:0.2f}%'.format(compute_nb_errors(net_cold_minimal, test_classes0.float(), test_target0, 50) / test_classes0.size(0) * 100))
