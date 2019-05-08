@@ -58,5 +58,15 @@ dl_dw.sum(0).shape
 
 # ---- argmax ---
 
-a = torch.Tensor([1, 2, 2,3 ,2 ,1 , 5, 6,3 ])
-a.argmax()
+a = torch.Tensor([[1, 2, 2,3 ,2 ,1 , 5, 6,3 ],
+                 [1, 2, 2,3 ,2 ,1 , 5, 6,10 ],
+                 [1, 2, 2,3 ,2 ,1 , 5, 0,3 ]])
+
+b = torch.Tensor([[1, 12, 2,3 ,2 ,1 , 5, 6,3 ],
+                 [1, 2, 2,13 ,2 ,1 , 5, 6,10 ],
+                 [1, 2, 2,3 ,2 ,1 , 5, 0,3 ]])
+arg_a = a.argmax(dim=1)
+
+arg_b = b.argmax(dim=1)
+
+(arg_a - arg_b).nonzero().shape[0]

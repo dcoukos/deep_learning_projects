@@ -53,8 +53,10 @@ def relu(input):
 
 
 def loss(v, t):
-    
-    return (v-t).pow(2).sum()
+    arg_v = v.argmax(dim=1)
+    arg_t = t.argmax(dim=1)
+    errors = (arg_v - arg_t).nonzero().shape[0]
+    return (v-t).pow(2).sum(), errors
 
 
 def dloss(v, t):
