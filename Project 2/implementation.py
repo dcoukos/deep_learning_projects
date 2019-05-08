@@ -51,8 +51,9 @@ architecture = Sequential(Linear(784, 100, ReLU()),
 # ----- Training -----
 round = 1
 for epoch in range(epochs):
-    loss = architecture.forward(train, train_label)
+    loss, errors = architecture.forward(train, train_label)
     architecture.backward()
     architecture.update(eta)
-    print(' --- Round ', round, '  Loss: ', loss, '---')
+    print(' --- Round ', round, '  Loss: ', loss.item(), '---', ' Errors: ',
+            errors, '--- ')
     round += 1

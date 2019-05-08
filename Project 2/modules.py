@@ -155,7 +155,7 @@ class Sequential(Module):
         for module in self.modules:
             output = module.forward(output) # TODO: check that this actually updates.
         self.output = output
-        return loss(output, self.target).item()
+        return loss(output, self.target)
 
     def backward(self):
         if config.show_calls:
