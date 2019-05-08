@@ -51,9 +51,8 @@ architecture = Sequential(Linear(784, 100, ReLU()),
 # ----- Training -----
 round = 1
 for epoch in range(epochs):
-    for sample in enumerate(train):
-        loss = architecture.forward(train, train_label)
-        architecture.backward()
-        architecture.update(eta)
+    loss = architecture.forward(train, train_label)
+    architecture.backward()
+    architecture.update(eta)
     print(' --- Round ', round, '  Loss: ', loss, '---')
     round += 1

@@ -53,6 +53,7 @@ def relu(input):
 
 
 def loss(v, t):
+    
     return (v-t).pow(2).sum()
 
 

@@ -53,3 +53,10 @@ sample = torch.Tensor([[1, 1, 1, 1, 1],
 
 dl_dw = dl_ds[:, :, None].matmul(sample[:, None, :])
 dl_dw.sum(0).shape
+
+
+
+# ---- argmax ---
+
+a = torch.Tensor([1, 2, 2,3 ,2 ,1 , 5, 6,3 ])
+a.argmax()
