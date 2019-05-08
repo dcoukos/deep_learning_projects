@@ -1,13 +1,19 @@
-'''File for implementing module and its descendants'''
 import math
 import torch
 from torch import Tensor
 import config
 from optimization import *
 
+'''File for implementing module and its descendants. These are the classes
+    that make up the architectural elements of the network. These classes
+    rely on functions which are defined in optimization.py.
 
-# TODO: get .pyi files for pytorch and static check with type hints.
+    These modules implement forward, backward, and update as instance
+    functions.
+'''
 
+# TODO, check what's supposed to happen with prev_x in the first layer.
+# TODO: check gradients
 
 class Activation:
     pass
@@ -24,6 +30,8 @@ class Module(object):
         return []
 
 
+# TODO: test forward and backward with dummy data.
+
 class Linear(Module):
     '''Write docblock.'''
     def __init__(self, in_dim, out_dim, act_fn):
@@ -33,24 +41,20 @@ class Linear(Module):
         self.out_dim = out_dim
         self.weights, self.bias = xavier_initialization(act_fn, in_dim,
                                                         out_dim, 'relu')
-        self.dl_dw = torch.empty(self.weights.shape)
+        self.dl_dw = torch.empty(self.weights.shape)  # Gradients
         self.dl_db = torch.empty(self.bias.shape)
-        if act_fn == 'relu':
-            self.activation = ReLU()
-        if act_fn == 'sigma':
-            self.activation = Sigma()
-        self.prev_x = None
+        self.activation = act_fn
+        self.prev_x = [] # Prev_x is overwritten for each sample.
 
     def forward(self, input):  # Why *input vs. input?
         '''Applies forward linear transformation on the data'''
-        input = input[:, None]
+        input = input.view(-1, 1)  # 1D -> 2D tensor for matrix calculations.
         if config.show_calls:
             print('    *Calling Linear.forward()')
-        self.prev_x = input
+        self.prev_x.append(input)
         layer_output = self.weights.mm(input) + self.bias
         act_output = self.activation.forward(layer_output)
         return act_output.squeeze()
-        # TODO: update sequential.forward to store values appropriately.
 
     def backward(self, dl_dx):
         # dl_ds represents the effect of the output of this layer on the loss
@@ -58,7 +62,6 @@ class Linear(Module):
         if config.show_calls:
             print('    *Calling Linear.backward()')
 
-        # DEBUG
         dl_ds = self.activation.backward(dl_dx).squeeze()
         # .squeeze should make it work with .mv
         prev_dl_dx = self.weights.t().mv(dl_ds)
@@ -74,20 +77,22 @@ class Linear(Module):
                                     self.prev_x.view(-1, 1).t())).shape)
         return prev_dl_dx.view(-1, 1)
 
-    def update(self, eta):
+    def update(self, eta, nb_samples):
+        '''This function applies one step of the gradient descent, and resets
+            the class instance parameters, for the following step.
+        '''
         if config.show_calls:
             print('    *Calling Linear.sgd()')
-        '''
-        print('Finding differences in wieghts')
-        print(self.weights[0])'''
-        self.weights = self.weights - eta*self.dl_dw
-        '''print(self.weights[0])'''
-        self.bias = self.bias - eta*self.dl_db
+
+        self.weights = self.weights - (eta*self.dl_dw)/nb_samples
+        self.bias = self.bias - (eta*self.dl_db)/nb_samples
         self.dl_dw = torch.empty(self.weights.shape)
         self.dl_db = torch.empty(self.bias.shape)
-        self.prev_x = None
+        self.prev_x = []
 
 
+# TODO: possibly compress activations by including backward & forward in
+#           activation superclass
 class ReLU(Module, Activation):
     '''Doc block!'''
     def __init__(self):
@@ -110,7 +115,7 @@ class ReLU(Module, Activation):
             print('   shape dl_dx: ', dl_dx.view(-1, 1).shape)  # Nice! 1D ->2D
             # This makes the multiplication work correctly (doesn't make
             # shape 10x10, but instead (10*1)*(10*1) -> (10*1))
-        return relu(self.prev_s)*(dl_dx.view(-1, 1))
+        return drelu(self.prev_s)*(dl_dx.view(-1, 1))  # TODO: maybe this should be drelu
 
 
 class Sigma(Module, Activation):
@@ -145,7 +150,8 @@ class Sequential(Module):
         if config.show_calls:
             print('--- Creating a sequential architecture ---')
         self.modules = modules
-        self.output = torch.empty(1000, 10)
+        self.samples = target.shape[0]
+        self.output = torch.empty(self.samples, 10)
         self.target = target
         self.dloss = []
 
@@ -158,11 +164,6 @@ class Sequential(Module):
                 output = module.forward(output) # TODO: check that this actually updates.
 
             self.output[index] = output
-        '''
-        print('output shape: ', self.output.shape)
-        print(self.output[0])
-        print('target shape: ', self.target.shape)
-        print(self.target[0])'''
 
         return loss(output, self.target).item()
 
@@ -183,6 +184,6 @@ class Sequential(Module):
         if config.show_calls:
             print('    *Calling Sequential.update()')
         for module in self.modules:
-            module.update(eta)
-        self.output = torch.empty(1000, 10)
+            module.update(eta, self.samples)
+        self.output = torch.empty(self.samples, 10)
         self.dloss = []

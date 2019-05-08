@@ -1,7 +1,7 @@
 import math
 import torch
 import config
-
+from numpy import heaviside
 
 def xavier_initialization(act_fn, in_dim, out_dim, bias, gain=1):
     '''simplified xavier function to initialize weights '''
@@ -20,11 +20,15 @@ def xavier_initialization(act_fn, in_dim, out_dim, bias, gain=1):
 
 
 def sigma(x):
-    return x.tanh_()
+    return x.tanh_()  # redefine using math?
 
 
 def dsigma(x):
     return 4*(x.exp() + x.mul(-1).exp()).pow(-2)
+
+
+def drelu(x):
+    return heaviside(x, 0)  # TODO Check legality and functionality.
 
 
 def relu(input):
@@ -42,4 +46,4 @@ def loss(v, t):
 
 
 def dloss(v, t):
-    return 2 * (v - t)
+    return 2 * (t-v)
