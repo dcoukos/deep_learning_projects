@@ -33,6 +33,23 @@ class SharedWeight_Net(nn.Module):
         x = F.relu(self.lin3(x.view(-1, 84)))
         return x
 
+class SharedWeight_Net2(nn.Module):
+    #takes as input a 14x14 image and returns a tensor with 10 entries for 10 class scores
+    def __init__(self):
+        super(SharedWeight_Net2, self).__init__()
+        self.conv1 = nn.Conv2d(1, 32, kernel_size=(3, 3), stride=(1, 1)) #14->12
+        self.conv2 = nn.Conv2d(32, 64, kernel_size=(5, 5), stride=(1, 1)) # 12 -> 8
+        self.lin1 = nn.Linear(256,200)
+        self.lin2 = nn.Linear(200, 10)
+        # self.out = nn.Linear(20, 1) #TODO: test w/ addtional Output Layer
+
+    def forward(self, x):
+        x = F.relu(self.conv1(x)) #12->12
+        x = F.relu(F.max_pool2d(self.conv2(x), kernel_size=4, stride=4, dilation = 1)) # 12 -> 2
+        x = F.relu(self.lin1(x.view(-1, 256)))
+        x = self.lin2(x.view(-1, 200))
+        return x
+
 class Comparison_Net_Hot(nn.Module):
     # this module takes as input a hot vector of size 20 (with all zeros and 1 at the place of the correct class) from the shared_weight net
     # and returns two activations (that will correspond to "bigger" neuron or to "smaller or/equal" neuron)
@@ -95,7 +112,7 @@ class Full_Net_Hot(nn.Module): # Niels: this is the combinated full net, that ta
         x =  torch.cat((x1, x2), dim=1)
         return self.comparison_model(x) # Might need to put a torch.cat((x1, x2), dim=0) here to feed the comparison model...
 
-def train_model(model, train_input, train_target, test_input, test_target, batch_size=100, epochs=150, lr = 0.01):  # TODO: implement smart learning rate
+def train_model(model, train_input, train_target, test_input, test_target, batch_size=100, epochs=150, lr = 0.01, printing = True):  # TODO: implement smart learning rate
     criterion = torch.nn.CrossEntropyLoss() #Compare w/ softmargin loss
     optimizer = optim.SGD(model.parameters(), lr=lr)
 
@@ -104,19 +121,14 @@ def train_model(model, train_input, train_target, test_input, test_target, batch
 
         for batch in range(0, train_input.size(0), batch_size): # Check out these functions, the sizes dont match: 25 & 100
             mini_batch = train_input.narrow(0, batch, batch_size)
-            # print(mini_batch.size())
-            # print('lol1')
-            # print((model(mini_batch)).size())
-            # print('lol2')
-            # print(train_target.narrow(0, batch, batch_size).flatten().size())
-            # print('lol3')
+
             loss = criterion(model(mini_batch), train_target.narrow(0, batch, batch_size).flatten().long()) #might need to flatten
             sum_loss += loss.item() # item = to digit.
             model.zero_grad() #What does this do again?
             loss.backward() #What does this do again?
             optimizer.step() #includes model.train
-
-        print('e {:d} error: {:0.2f}%'.format(epoch, compute_nb_errors(model, test_input, test_target, batch_size) / test_input.size(0) * 100))
+        if printing == True:
+            print('e {:d} error: {:0.2f}%'.format(epoch, compute_nb_errors(model, test_input, test_target, batch_size) / test_input.size(0) * 100))
 
 
 def compute_nb_errors(model, data_input, data_target, mini_batch_size):

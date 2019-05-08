@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="56ebdc93-c902-4a02-ab11-cfcdf906f331" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/Comparison_architectures.py" beforeDir="false" afterPath="$PROJECT_DIR$/Comparison_architectures.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared_arch.py" beforeDir="false" afterPath="$PROJECT_DIR$/shared_arch.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Comparisonold.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project 1/Comparison_architectures.py" beforeDir="false" afterPath="$PROJECT_DIR$/Project 1/Comparison_architectures.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project 1/shared_arch.py" beforeDir="false" afterPath="$PROJECT_DIR$/Project 1/shared_arch.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -13,37 +15,15 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/deep_learning_projects$Comparison_architectures__1_.coverage" NAME="Comparison_architectures (1) Coverage Results" MODIFIED="1557235951547" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Project 1" />
     <SUITE FILE_PATH="coverage/deep_learning_projects$Little_tests.coverage" NAME="Little_tests Coverage Results" MODIFIED="1555674967105" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/deep_learning_projects$Comparison_architectures.coverage" NAME="Comparison_architectures Coverage Results" MODIFIED="1556048548561" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/deep_learning_projects$shared_arch.coverage" NAME="shared_arch Coverage Results" MODIFIED="1555672193589" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/deep_learning_projects$visual.coverage" NAME="visual Coverage Results" MODIFIED="1555597984355" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/deep_learning_projects$visual.coverage" NAME="visual Coverage Results" MODIFIED="1557218659238" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/deep_learning_projects$visual__1_.coverage" NAME="visual (1) Coverage Results" MODIFIED="1557218688489" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Project 1" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="dimitri_arch.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dimitri_arch.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="52" column="78" selection-start-line="52" selection-start-column="70" selection-end-line="52" selection-end-column="78" />
-              <folding>
-                <element signature="e#0#12#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="shared_arch.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/shared_arch.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1093">
-              <caret line="63" column="31" selection-start-line="63" selection-start-column="31" selection-end-line="63" selection-end-column="31" />
-              <folding>
-                <element signature="e#0#12#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="functional.py" pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/anaconda3/lib/python3.7/site-packages/torch/nn/functional.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -53,10 +33,43 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="Comparison_architectures.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Project 1/Comparison_architectures.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="99">
+              <caret line="62" selection-start-line="62" selection-end-line="62" />
+              <folding>
+                <element signature="e#0#36#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dlc_practical_prologue.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Project 1/dlc_practical_prologue.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="226">
+              <caret line="135" column="23" lean-forward="true" selection-start-line="135" selection-start-column="23" selection-end-line="135" selection-end-column="23" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="shared_arch.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Project 1/shared_arch.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="317">
+              <caret line="131" lean-forward="true" selection-start-line="130" selection-start-column="12" selection-end-line="131" />
+              <folding>
+                <element signature="e#0#12#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="linear.py" pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/anaconda3/lib/python3.7/site-packages/torch/nn/modules/linear.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="152">
+            <state relative-caret-position="160">
               <caret line="66" selection-start-line="66" selection-end-line="66" />
             </state>
           </provider>
@@ -65,7 +78,7 @@
       <file leaf-file-name="loss.py" pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/anaconda3/lib/python3.7/site-packages/torch/nn/modules/loss.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="130">
+            <state relative-caret-position="13425">
               <caret line="903" selection-start-line="903" selection-end-line="903" />
             </state>
           </provider>
@@ -74,44 +87,8 @@
       <file leaf-file-name="module.py" pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/anaconda3/lib/python3.7/site-packages/torch/nn/modules/module.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="145">
+            <state relative-caret-position="7215">
               <caret line="488" selection-start-line="488" selection-end-line="488" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Little_tests.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Little_tests.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" column="29" selection-start-line="9" selection-start-column="29" selection-end-line="9" selection-end-column="29" />
-              <folding>
-                <element signature="e#0#15#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="visual.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/visual.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="20" selection-start-line="20" selection-end-line="20" />
-              <folding>
-                <element signature="e#0#12#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Comparison_architectures.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Comparison_architectures.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="36" column="8" lean-forward="true" selection-start-line="36" selection-start-column="8" selection-end-line="36" selection-end-column="8" />
-              <folding>
-                <element signature="e#0#36#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -129,6 +106,7 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>print</find>
+      <find>generate</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -141,6 +119,8 @@
         <option value="$PROJECT_DIR$/Little_tests.py" />
         <option value="$PROJECT_DIR$/shared_arch.py" />
         <option value="$PROJECT_DIR$/Comparison_architectures.py" />
+        <option value="$PROJECT_DIR$/Project 1/shared_arch.py" />
+        <option value="$PROJECT_DIR$/Project 1/Comparison_architectures.py" />
       </list>
     </option>
   </component>
@@ -194,7 +174,26 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.Comparison_architectures">
+  <component name="RunManager" selected="Python.Comparison_architectures (1)">
+    <configuration name="Comparison_architectures (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="deep_learning_projects" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Project 1" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Project 1/Comparison_architectures.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
     <configuration name="Comparison_architectures" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="deep_learning_projects" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -233,7 +232,7 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
-    <configuration name="shared_arch" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="visual (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="deep_learning_projects" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -241,12 +240,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Project 1" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/shared_arch.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Project 1/visual.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -273,16 +272,18 @@
     </configuration>
     <list>
       <item itemvalue="Python.visual" />
-      <item itemvalue="Python.shared_arch" />
       <item itemvalue="Python.Little_tests" />
       <item itemvalue="Python.Comparison_architectures" />
+      <item itemvalue="Python.visual (1)" />
+      <item itemvalue="Python.Comparison_architectures (1)" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.Comparison_architectures (1)" />
+        <item itemvalue="Python.visual (1)" />
+        <item itemvalue="Python.visual" />
         <item itemvalue="Python.Comparison_architectures" />
         <item itemvalue="Python.Little_tests" />
-        <item itemvalue="Python.shared_arch" />
-        <item itemvalue="Python.visual" />
       </list>
     </recent_temporary>
   </component>
@@ -301,21 +302,20 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="777" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.5327245" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.38356164" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Python Console" order="7" weight="0.32876712" />
-      <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.105815835" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32876712" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.27705976" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
-      <window_info anchor="right" id="SciView" order="3" visible="true" weight="0.071890146" />
+      <window_info anchor="right" id="SciView" order="3" visible="true" weight="0.040387724" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39878234" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.5327245" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -339,28 +339,56 @@
           <url>file://$PROJECT_DIR$/shared_arch.py</url>
           <line>79</line>
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Project 1/Comparison_architectures.py</url>
+          <line>62</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="1" />
+      <option name="time" value="4" />
     </breakpoint-manager>
   </component>
+  <component name="debuggerHistoryManager">
+    <expressions id="evaluateExpression">
+      <expression>
+        <expression-string>torch.save(model_shared2, 'model_shared2.pth')</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>torch.save(model_comparison, 'cold.pth')</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>A = torch.tensor([2])</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>val_classes0.size()</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>train_classes0.size()</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/dimitri_arch.py">
+    <entry file="file://$USER_HOME$/anaconda3/lib/python3.7/site-packages/torch/nn/functional.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="780">
-          <caret line="52" column="78" selection-start-line="52" selection-start-column="70" selection-end-line="52" selection-end-column="78" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="20025">
+          <caret line="1351" selection-start-line="1351" selection-end-line="1351" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Comparison_architectures.py">
+    <entry file="file://$USER_HOME$/anaconda3/lib/python3.7/site-packages/torch/nn/modules/linear.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="585">
-          <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
-          <folding>
-            <element signature="e#0#36#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="885">
+          <caret line="66" selection-start-line="66" selection-end-line="66" />
         </state>
       </provider>
     </entry>
@@ -378,46 +406,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Little_tests.py">
+    <entry file="file://$PROJECT_DIR$/dimitri_arch.py" />
+    <entry file="file://$PROJECT_DIR$/Comparison_architectures.py" />
+    <entry file="file://$USER_HOME$/anaconda3/lib/python3.7/site-packages/torch/nn/modules/loss.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="29" selection-start-line="9" selection-start-column="29" selection-end-line="9" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="13425">
+          <caret line="903" selection-start-line="903" selection-end-line="903" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/visual.py">
+    <entry file="file://$USER_HOME$/anaconda3/lib/python3.7/site-packages/torch/nn/modules/module.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="7215">
+          <caret line="488" selection-start-line="488" selection-end-line="488" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/shared_arch.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
-          <caret line="48" column="25" selection-start-line="48" selection-start-column="25" selection-end-line="48" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/visual.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" selection-start-line="20" selection-end-line="20" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Little_tests.py" />
+    <entry file="file://$PROJECT_DIR$/visual.py" />
+    <entry file="file://$PROJECT_DIR$/shared_arch.py" />
+    <entry file="file://$PROJECT_DIR$/visual.py" />
     <entry file="file://$USER_HOME$/anaconda3/lib/python3.7/site-packages/torch/nn/modules/conv.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="130">
@@ -425,54 +433,45 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Little_tests.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="29" selection-start-line="9" selection-start-column="29" selection-end-line="9" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Little_tests.py" />
     <entry file="file://$USER_HOME$/anaconda3/lib/python3.7/site-packages/torch/nn/modules/loss.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
+        <state relative-caret-position="13425">
           <caret line="903" selection-start-line="903" selection-end-line="903" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/anaconda3/lib/python3.7/site-packages/torch/nn/modules/linear.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="66" selection-start-line="66" selection-end-line="66" />
         </state>
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/anaconda3/lib/python3.7/site-packages/torch/nn/modules/module.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="145">
+        <state relative-caret-position="7215">
           <caret line="488" selection-start-line="488" selection-end-line="488" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dimitri_arch.py">
+    <entry file="file://$PROJECT_DIR$/dimitri_arch.py" />
+    <entry file="file://$PROJECT_DIR$/Comparison_architectures.py" />
+    <entry file="file://$PROJECT_DIR$/shared_arch.py" />
+    <entry file="file://$PROJECT_DIR$/Project 1/visual.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="52" column="78" selection-start-line="52" selection-start-column="70" selection-end-line="52" selection-end-column="78" />
+        <state relative-caret-position="215">
+          <caret line="18" column="34" lean-forward="true" selection-start-line="18" selection-start-column="34" selection-end-line="18" selection-end-column="34" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Comparison_architectures.py">
+    <entry file="file://$USER_HOME$/anaconda3/lib/python3.7/site-packages/torch/nn/modules/linear.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="36" column="8" lean-forward="true" selection-start-line="36" selection-start-column="8" selection-end-line="36" selection-end-column="8" />
-          <folding>
-            <element signature="e#0#36#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="160">
+          <caret line="66" selection-start-line="66" selection-end-line="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Project 1/dlc_practical_prologue.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="226">
+          <caret line="135" column="23" lean-forward="true" selection-start-line="135" selection-start-column="23" selection-end-line="135" selection-end-column="23" />
         </state>
       </provider>
     </entry>
@@ -483,12 +482,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/shared_arch.py">
+    <entry file="file://$PROJECT_DIR$/Project 1/shared_arch.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1093">
-          <caret line="63" column="31" selection-start-line="63" selection-start-column="31" selection-end-line="63" selection-end-column="31" />
+        <state relative-caret-position="317">
+          <caret line="131" lean-forward="true" selection-start-line="130" selection-start-column="12" selection-end-line="131" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Project 1/Comparison_architectures.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="99">
+          <caret line="62" selection-start-line="62" selection-end-line="62" />
+          <folding>
+            <element signature="e#0#36#0" expanded="true" />
           </folding>
         </state>
       </provider>
