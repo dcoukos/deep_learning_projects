@@ -13,7 +13,7 @@ def split_images(image_pair):
 class Net_with_weight_sharing_and_Hot(nn.Module):
 # Architecture is inspired more from the model given in the course as example, has close to the 70'000 asked in the project description, and adapted to get pairs of 14x14 images as input.
     def __init__(self):
-        super(SharedWeight_Net2, self).__init__()
+        super(Net_with_weight_sharing_and_Hot, self).__init__()
         # Image recognition layers (weights are shared (they are used to treat both input images)) :
         self.conv1 = nn.Conv2d(1, 32, kernel_size=(3, 3), stride=(1, 1)) #14->12
         self.conv2 = nn.Conv2d(32, 64, kernel_size=(5, 5), stride=(1, 1)) # 12 -> 8
@@ -36,7 +36,7 @@ class Net_with_weight_sharing_and_Hot(nn.Module):
         # Output of this : 2 vetors of 10x1
 
         # Not-shared weights part (Digit's value comparison step) :
-        comparison = F.relu(self.lin3([x1, x2].view(-1, 20)))      #  <----   NOT SURE OF THIS !!!
+        comparison = F.relu(self.lin3(torch.cat((x1, x2), 0).view(-1, 20)))      #  <----   NOT SURE OF THIS !!!
 
         return comparison, x1, x2 # It must output those (x1, x2 being the digit recognition result) so we can compute the auxiliarry loss (thus rewarding the net if it recognizes well the digits on the image pairs).
 
@@ -44,14 +44,14 @@ def train_model(model, train_image_pairs, train_digit_classes, train_comparison_
 
     recognition_criterion = torch.nn.CrossEntropyLoss()
     comparison_criterion = torch.nn.CrossEntropyLoss() # We decide here to use the same criterion for the two tasks the networl is doing, but this could as well be changed.
-    optimizer = optim.SGD(model.parameters(), lr=lr)
+    optimizer = optim.SGD(model.parameters(), lr)
 
     train_digit_classes1, train_digit_classes2=split_images(train_digit_classes) # Split to compute the auxiliary loss for both digit recognitions.
 
     for epoch in range(0, epochs):
         sum_loss = 0
         for batch_nb in range(0, train_image_pairs.size(0), batch_size):
-            mini_batch = train_input.narrow(0, batch_nb, batch_size)
+            mini_batch = train_image_pairs.narrow(0, batch_nb, batch_size)
             batch_target_x1=train_digit_classes1.narrow(0, batch_nb, batch_size).flatten().long()
             batch_target_x2=train_digit_classes2.narrow(0, batch_nb, batch_size).flatten().long()
             batch_train_comparison_target=train_comparison_target.narrow(0, batch_nb, batch_size).flatten().long()
@@ -67,12 +67,12 @@ def train_model(model, train_image_pairs, train_digit_classes, train_comparison_
         if printing==True:
             print(('epoch {:d} error rate : {:0.2f}%'.format(epoch, compute_nb_errors(model, test_image_pairs, test_comparison_target, batch_size) / test_image_pairs.size(0) * 100)))
 
-def compute_nb_errors(model, data_input, data_target, mini_batch_size):
+def compute_nb_errors(model, data_input, data_target, mini_batch_size): # This function computes the nb of errors that the model does on the test set
     # I took the function from previous work and didn't adapt it to this net, but this should do.
     nb_data_errors = 0
     for b in range(0, data_input.size(0), mini_batch_size):
         output = model(data_input.narrow(0, b, mini_batch_size))
-        _, predicted_classes = torch.max(output.data, 1)
+        _, predicted_classes = torch.max(output.data, 1) # WTF
         for k in range(mini_batch_size):
             if data_target.data[b + k] != predicted_classes[k]:
                 nb_data_errors = nb_data_errors + 1
