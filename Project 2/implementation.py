@@ -10,7 +10,14 @@ the learning rates, number of epochs, and other parameters are defined.
 
 '''
 
-# TODO: Implement sample by sample. If it works, implement mini-batch.
+# ------------------ TESTING ----------------
+
+
+# TODO: test forward and backward with dummy data.
+
+
+
+
 
 # ----- Debugging parameters -----
 config.show_calls = False
@@ -19,6 +26,7 @@ config.show_shapes = False
 # ----- Loading the data -----
 train, train_label, test, test_label = prologue.load_data(one_hot_labels=True,
                                                           normalize=True)
+
 
 #  ----- Define the paramters for learning -----
 nb_classes = train_label.size(1)
@@ -35,8 +43,7 @@ test_label = test_label*zeta
 
 
 # ----- Implementation of the architecture -----
-architecture = Sequential(train_label,
-                          Linear(784, 100, ReLU()),
+architecture = Sequential(Linear(784, 100, ReLU()),
                           Linear(100, 100, ReLU()),
                           Linear(100, 10, Sigma()))
 
@@ -44,9 +51,9 @@ architecture = Sequential(train_label,
 # ----- Training -----
 round = 1
 for epoch in range(epochs):
-    for sample in enumerate(train):
-        loss = architecture.forward(train)
-        architecture.backward()
-        architecture.update(eta)
-    print(' --- Round ', round, '  Loss: ', loss, '---')
+    loss, errors = architecture.forward(train, train_label)
+    architecture.backward()
+    architecture.update(eta)
+    print(' --- Round ', round, '  Loss: ', loss.item(), '---', ' Errors: ',
+            errors, '--- ')
     round += 1
