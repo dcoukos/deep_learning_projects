@@ -29,14 +29,15 @@ class Net_with_weight_sharing_and_Hot(nn.Module):
         x2 = F.relu(self.conv1(image2))
         x1 = F.relu(F.max_pool2d(self.conv2(x1), kernel_size=4, stride=4, dilation = 1)) # 12 -> 2
         x2 = F.relu(F.max_pool2d(self.conv2(x2), kernel_size=4, stride=4, dilation = 1))
-        x1 = F.relu(self.lin1(x1.view(-1, 256)))
+        x1 = F.relu(self.lin1(x1.view(-1, 256))) 
         x2 = F.relu(self.lin1(x2.view(-1, 256)))
         x1 = self.lin2(x1.view(-1, 200)) # No activation function on the last step
         x2 = self.lin2(x2.view(-1, 200))
         # Output of this : 2 vetors of 10x1
 
         # Not-shared weights part (Digit's value comparison step) :
-        comparison = F.relu(self.lin3(torch.cat((x1, x2), 0).view(-1, 20)))      #  <----   NOT SURE OF THIS !!!
+        comparison = F.relu(self.lin3(torch.cat((x1, x2), 1).view(-1, 20)))      #  <----   NOT SURE OF THIS !!!
+                                                                                 #(x1, x2) is sequence of tensors of the same type
 
         return comparison, x1, x2 # It must output those (x1, x2 being the digit recognition result) so we can compute the auxiliarry loss (thus rewarding the net if it recognizes well the digits on the image pairs).
 
@@ -45,6 +46,7 @@ def train_model(model, train_image_pairs, train_digit_classes, train_comparison_
     recognition_criterion = torch.nn.CrossEntropyLoss()
     comparison_criterion = torch.nn.CrossEntropyLoss() # We decide here to use the same criterion for the two tasks the networl is doing, but this could as well be changed.
     optimizer = optim.SGD(model.parameters(), lr)
+    # We would have to put another Optimizer if we implement a different loss, or want to secify the learning rate of each 
 
     train_digit_classes1, train_digit_classes2=split_images(train_digit_classes) # Split to compute the auxiliary loss for both digit recognitions.
 
@@ -72,8 +74,8 @@ def compute_nb_errors(model, data_input, data_target, mini_batch_size): # This 
     nb_data_errors = 0
     for b in range(0, data_input.size(0), mini_batch_size):
         output = model(data_input.narrow(0, b, mini_batch_size))
-        _, predicted_classes = torch.max(output.data, 1) # WTF
+        _, predicted_classes = torch.max(output[0], 1) # WTF
         for k in range(mini_batch_size):
-            if data_target.data[b + k] != predicted_classes[k]:
+            if data_target[b + k] != predicted_classes[k]:
                 nb_data_errors = nb_data_errors + 1
     return nb_data_errors
