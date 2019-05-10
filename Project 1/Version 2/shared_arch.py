@@ -3,7 +3,7 @@ import torch.optim as optim
 from torch.autograd import Variable
 from torch import nn
 from torch.nn import functional as F
-import operator
+
 
 
 
@@ -60,19 +60,6 @@ class Comparison_Net_Hot(nn.Module):
         x = F.relu(self.lin(x.view(-1, 20)))
         return x
 
-class Whole_Shared_Net(nn.Module):
-    def __init__(self):
-        super(Whole_Shared_Net, self).__init__()
-        self.sharedNet = SharedWeight_Net2()
-        self.comparisonNet = Comparison_Net_Hot()
-    def forward(self, x):
-        images1, images2 = split_images(x)
-        digit1_hot = self.sharedNet(images1)
-        digit2_hot = self.sharedNet(images2)
-        x = self.comparisonNet(torch.cat((digit1_hot, digit2_hot), dim=1))
-        return digit1_hot, digit2_hot, x
-
-
 class Comparison_Net_Cold(nn.Module):
     # this module takes as input a hot vector of size 2 (with the index of the correct class)
     # -> can be replaced by Comparison_Net_Cold_Minimal
@@ -124,10 +111,8 @@ class Full_Net_Hot(nn.Module): # Niels: this is the combinated full net, that ta
         x =  torch.cat((x1, x2), dim=1)
         return self.comparison_model(x) # Might need to put a torch.cat((x1, x2), dim=0) here to feed the comparison model...
 
-def train_model(model, train_input, train_target, test_input, test_target, batch_size=100, epochs=150, lr = 0.01, printing = True, full = False, auxiliaryLoss = 0.2):  # TODO: implement smart learning rate
-    # for the full net target is a tuple containing digit1, digit2, comparison
+def train_model(model, train_input, train_target, test_input, test_target, batch_size=100, epochs=150, lr = 0.01, printing = True):  # TODO: implement smart learning rate
     criterion = torch.nn.CrossEntropyLoss() #Compare w/ softmargin loss
-
     optimizer = optim.SGD(model.parameters(), lr=lr)
 
     for epoch in range (0, epochs):
@@ -135,67 +120,28 @@ def train_model(model, train_input, train_target, test_input, test_target, batch
 
         for batch in range(0, train_input.size(0), batch_size): # Check out these functions, the sizes dont match: 25 & 100
             mini_batch = train_input.narrow(0, batch, batch_size)
-            if not full:
-                loss = criterion(model(mini_batch), train_target.narrow(0, batch, batch_size).flatten().long()) #might need to flatten
-            else:
-                digit1_hot, digit2_hot, comparison = model(mini_batch)
-                loss = auxiliaryLoss * criterion(digit1_hot, train_target[0].narrow(0, batch, batch_size).flatten().long()) + auxiliaryLoss * criterion(digit2_hot, train_target[1].narrow(0, batch, batch_size).flatten().long()) + (1-auxiliaryLoss) * criterion(comparison, train_target[2].narrow(0, batch, batch_size).flatten().long())
+
+            loss = criterion(model(mini_batch), train_target.narrow(0, batch, batch_size).flatten().long()) #might need to flatten
             sum_loss += loss.item() # item = to digit.
             model.zero_grad() #What does this do again?
             loss.backward() #What does this do again?
             optimizer.step() #includes model.train
-        with torch.no_grad():
-            if printing == True:
-                if not full:
-                    print('epoch {:d} train error: {:0.2f}% test error: {:0.2f}%'.format(epoch, compute_nb_errors(model, train_input, train_target, batch_size) / test_input.size(0) * 100, compute_nb_errors(model, test_input, test_target, batch_size) / test_input.size(0) * 100))
-                else:
-                    size_train = train_input.size()[0]
-                    size_test = test_input.size()[0]
-                    digit1_error, digit2_error, comparison_error = compute_nb_errors(model, train_input, train_target,
-                                                                                       batch_size, full = True)
-                    digit1_test_error, digit2_test_error, comparison_test_error = compute_nb_errors(model, test_input, test_target,
-                batch_size, full = True)
-                    print('epoch  {:d} train error: digit1 {:0.2f}, digit2 {:0.2f}%, comparison {:0.2f}'.format(epoch, digit1_error /size_train * 100, digit2_error / size_train * 100, comparison_error / size_train * 100))
-
-                    print('epoch  {:d} test error: digit1 {:0.2f}, digit2 {:0.2f}%, comparison {:0.2f}'.format(epoch,
-                                                                                                                digit1_test_error / size_test * 100,
-                                                                                                                digit2_test_error / size_test * 100,
-                                                                                                                comparison_test_error / size_test * 100))
+        if printing == True:
+            print('epoch {:d} error: {:0.2f}%'.format(epoch, compute_nb_errors(model, test_input, test_target, batch_size) / test_input.size(0) * 100))
 
 
-def compute_nb_errors(model, data_input, data_target, mini_batch_size, full= False):
+def compute_nb_errors(model, data_input, data_target, mini_batch_size):
 
     nb_data_errors = 0
-    nb_digit1_errors = 0
-    nb_digit2_errors = 0
-    nb_comparison_errors = 0
 
     for b in range(0, data_input.size(0), mini_batch_size):
-        if full == False:
-            output = model(data_input.narrow(0, b, mini_batch_size))
-            _, predicted_classes = torch.max(output.data, 1)
-            for k in range(mini_batch_size):
-                if data_target.data[b + k] != predicted_classes[k]:
-                    nb_data_errors = nb_data_errors + 1
-        if full == True:
-            digit1, digit2, comparison = model(data_input.narrow(0, b, mini_batch_size))
-            _, pred_digit1 = torch.max(digit1.data, 1)
-            _, pred_digit2 = torch.max(digit2.data, 1)
-            _, pred_comparison = torch.max(comparison.data, 1)
+        output = model(data_input.narrow(0, b, mini_batch_size))
+        _, predicted_classes = torch.max(output.data, 1)
+        for k in range(mini_batch_size):
+            if data_target.data[b + k] != predicted_classes[k]:
+                nb_data_errors = nb_data_errors + 1
 
-            for k in range(mini_batch_size):
-                if data_target[0].data[b + k] != pred_digit1[k]:
-                    nb_digit1_errors = nb_digit1_errors + 1
-                if data_target[1].data[b + k] != pred_digit2[k]:
-                    nb_digit2_errors = nb_digit2_errors + 1
-                if data_target[2].data[b + k] != pred_comparison[k]:
-                    nb_comparison_errors = nb_comparison_errors + 1
-
-
-    if full == False:
-        return nb_data_errors
-    else:
-        return nb_digit1_errors, nb_digit2_errors, nb_comparison_errors
+    return nb_data_errors
 
 def convert_to_hot(data_input):
     #converts 1D array of class indices (from 0 to 9) into 2D array with 1rst dimension denoting the example and second the dimension of size 20 with ones at the corresponding index.
@@ -211,9 +157,3 @@ def convert_hothot_to_digitdigit(hot1, hot2):
     digit2 = torch.argmax(hot2, dim=1, keepdim=True).float()
     digitdigit = torch.cat((digit1, digit2), dim=1)
     return digitdigit
-
-def split_TrainVal(input):
-    N = input.size()[0]
-    val = input.narrow(0,0,N//3)
-    train = input.narrow(0, N//3, N-N//3)
-    return train, val

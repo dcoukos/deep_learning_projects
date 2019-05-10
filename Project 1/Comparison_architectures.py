@@ -4,50 +4,66 @@ from shared_arch import *
 
 #Downloading test and train. Splitting the train into train and validation (in order to avoid hyperparameters tuning)
 
-trainVal_input0, trainVal_target0, trainVal_classes0, \
-test_input0, test_target0, test_classes0 = dlc.generate_pair_sets(3000) # test_input are the image pairs for testing, test_target are the answers of the comparison of the values of the digit pairs, test_classes are the answers of the digit pairs values
-# the 0 stands for pairs (unsplit data)
+trainVal_images, trainVal_comparison, trainVal_digits, \
+test_images, test_comparison, test_digits = dlc.generate_pair_sets(3000)
 
-trainVal_input, _ = split_images(trainVal_input0)
-trainVal_classes, _ = split_images(trainVal_classes0)
+#split train into train and validation
+train_images, val_images = split_TrainVal(trainVal_images)
+train_digits, val_digits = split_TrainVal(trainVal_digits)
+train_comparison, val_comparison = split_TrainVal(trainVal_comparison)
 
-#Splitting the train into train and validation (in order to avoid hyperparameters tuning)
+train_image1, train_image2 = split_images(train_images)
+train_digit1, train_digit2 = split_images(train_digits)
 
-def split_TrainVal(input):
-    N = input.size()[0]
-    val = input.narrow(0,0,N//3)
-    train = input.narrow(0, N//3, N-N//3)
-    return train, val
+val_image1, val_image2 = split_images(val_images)
+val_digit1, val_digit2 = split_images(val_digits)
 
-train_input, val_input = split_TrainVal(trainVal_input)
-train_classes, val_classes = split_TrainVal(trainVal_classes)
+test_image1, test_image2 = split_images(test_images)
+test_digit1, test_digit2 = split_images(test_digits)
 
-
-train_classes0, val_classes0 = split_TrainVal(trainVal_classes0)
-train_target0, val_target0 = split_TrainVal(trainVal_target0)
-
-
-test_input, _ = split_images(test_input0)
-test_classes, _ = split_images(test_classes0)
 
 # from https://discuss.pytorch.org/t/how-do-i-check-the-number-of-parameters-of-a-model/4325/8
 def count_parameters(model):
     return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
+
 #
 # # #training the SharedWeight_Net
-# print('Shared Weight Net 2')
-# model_shared2 = SharedWeight_Net2()
-# model_shared2(train_input.narrow(0, 0, 1))
-# print(count_parameters(model_shared2))
-# train_model(model_shared2, train_input, train_classes, val_input, val_classes, 100, 50, 0.005)
+print('Shared Weight Net 2')
+model_shared2 = SharedWeight_Net2()
+print(count_parameters(model_shared2))
+train_model(model_shared2, train_image1, train_digit1, val_image1, val_digit1, 100, 25, 0.005)
+
+
 # #
 # #
 # # # #training the comparison_Net
-# print('Comparison Net Hot')
-# net_hot = Comparison_Net_Hot()
-# train_model(net_hot, convert_to_hot(train_classes0), train_target0, convert_to_hot(val_classes0), val_target0, 100, 50, 0.2)
+print('Comparison Net Hot')
+net_hot = Comparison_Net_Hot()
+train_model(net_hot, convert_to_hot(train_digits), train_comparison, convert_to_hot(val_digits), val_comparison, 100, 25, 0.2)
 # # # # with lr = 0.01 final error 16%, 0.005 31%, 0.05 2.3%, lr = 0.2 0%
+
+print('Comparison Net Full')
+net_full = Whole_Shared_Net()
+print(count_parameters(net_full))
+train_model(net_full, train_images, (train_digit1, train_digit2, train_comparison), val_images, (val_digit1, val_digit2, val_comparison), 100, 25, 0.005, full = True)
+
+
+#now we try to train first the shared and then the hot with the output of the shared
+print('Full Net with Concatenation of already trained parts')
+
+print('Training digit recognition part')
+model_shared3 = SharedWeight_Net2()
+# print(count_parameters(model_shared2))
+train_model(model_shared3, train_image1, train_digit1, val_image1, val_digit1, 100, 25, 0.005)
+
+print('Training comparison on the output')
+net_hot_2 = Comparison_Net_Hot()
+train_model(net_hot_2, torch.cat((model_shared3(train_image1).detach(), model_shared3(train_image2).detach()), dim = 1), train_comparison, torch.cat((model_shared3(val_image1).detach(), model_shared3(val_image2).detach()), dim = 1), val_comparison, 100, 25, 0.005)
+
+
+
+
 #
 #
 # print('Comparison Net Cold')
@@ -57,10 +73,10 @@ def count_parameters(model):
 # print('test error: {:0.2f}%'.format(compute_nb_errors(model_comparison, test_classes0.float(), test_target0, 50) / test_classes0.size(0) * 100))
 #
 
-print('Comparison Net Cold Minimal') # This one freaks out !
-net_cold_minimal = Comparison_Net_Cold_Minimal()
-train_model(net_cold_minimal, train_classes0.float(), train_target0, val_classes0.float(), val_target0, 100, 150, 0.5)
-print('test error: {:0.2f}%'.format(compute_nb_errors(net_cold_minimal, test_classes0.float(), test_target0, 50) / test_classes0.size(0) * 100))
+# print('Comparison Net Cold Minimal') # This one freaks out !
+# net_cold_minimal = Comparison_Net_Cold_Minimal()
+# train_model(net_cold_minimal, train_classes0.float(), train_target0, val_classes0.float(), val_target0, 100, 150, 0.5)
+# print('test error: {:0.2f}%'.format(compute_nb_errors(net_cold_minimal, test_classes0.float(), test_target0, 50) / test_classes0.size(0) * 100))
 
 # # # with lr = 0.5 final error 0 %
 # #

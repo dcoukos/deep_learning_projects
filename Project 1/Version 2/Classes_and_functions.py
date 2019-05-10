@@ -17,8 +17,7 @@ class Net_with_weight_sharing_and_Hot(nn.Module):
         # Image recognition layers (weights are shared (they are used to treat both input images)) :
         self.conv1 = nn.Conv2d(1, 32, kernel_size=(3, 3), stride=(1, 1)) #14->12
         self.conv2 = nn.Conv2d(32, 64, kernel_size=(5, 5), stride=(1, 1)) # 12 -> 8
-        self.lin1 = nn.Linear(256,200)
-        self.lin2 = nn.Linear(200, 10)
+        self.lin1 = nn.Linear(256,10)
         # Digit's value comparison layer :
         self.lin3 = nn.Linear(20,2)
 
@@ -31,12 +30,11 @@ class Net_with_weight_sharing_and_Hot(nn.Module):
         x2 = F.relu(F.max_pool2d(self.conv2(x2), kernel_size=4, stride=4, dilation = 1))
         x1 = F.relu(self.lin1(x1.view(-1, 256))) 
         x2 = F.relu(self.lin1(x2.view(-1, 256)))
-        x1 = self.lin2(x1.view(-1, 200)) # No activation function on the last step
-        x2 = self.lin2(x2.view(-1, 200))
         # Output of this : 2 vetors of 10x1
+        x3 = torch.cat((x1, x2), 1).view(-1, 20)
 
         # Not-shared weights part (Digit's value comparison step) :
-        comparison = F.relu(self.lin3(torch.cat((x1, x2), 1).view(-1, 20)))      #  <----   NOT SURE OF THIS !!!
+        comparison = self.lin3(x3)      #  <----   NOT SURE OF THIS !!!
                                                                                  #(x1, x2) is sequence of tensors of the same type
 
         return comparison, x1, x2 # It must output those (x1, x2 being the digit recognition result) so we can compute the auxiliarry loss (thus rewarding the net if it recognizes well the digits on the image pairs).
@@ -45,7 +43,7 @@ def train_model(model, train_image_pairs, train_digit_classes, train_comparison_
 
     recognition_criterion = torch.nn.CrossEntropyLoss()
     comparison_criterion = torch.nn.CrossEntropyLoss() # We decide here to use the same criterion for the two tasks the networl is doing, but this could as well be changed.
-    optimizer = optim.SGD(model.parameters(), lr)
+    optimizer = optim.Adam(list(model.parameters()), lr)
     # We would have to put another Optimizer if we implement a different loss, or want to secify the learning rate of each 
 
     train_digit_classes1, train_digit_classes2=split_images(train_digit_classes) # Split to compute the auxiliary loss for both digit recognitions.
@@ -67,15 +65,26 @@ def train_model(model, train_image_pairs, train_digit_classes, train_comparison_
             loss.backward()
             optimizer.step()
         if printing==True:
-            print(('epoch {:d} error rate : {:0.2f}%'.format(epoch, compute_nb_errors(model, test_image_pairs, test_comparison_target, batch_size) / test_image_pairs.size(0) * 100)))
+            nb_comparison_errors, nb_digitRecognition1_errors, nb_digitRecognition2_errors = compute_nb_errors(model, train_image_pairs, train_comparison_target, train_digit_classes1, train_digit_classes2, batch_size) # This function computes the nb of errors that the model does on the test set
+            tot_samples = train_image_pairs.size(0)
+            print(('epoch {:d} train error: comparison: {:0.2f}% digit1: {:0.2f}% digit2: {:0.2f}%'.format(epoch,  nb_comparison_errors/tot_samples * 100, nb_digitRecognition1_errors/tot_samples * 100, nb_digitRecognition2_errors/tot_samples * 100)))
 
-def compute_nb_errors(model, data_input, data_target, mini_batch_size): # This function computes the nb of errors that the model does on the test set
+
+def compute_nb_errors(model, data_input, data_comparison, digits1, digits2, mini_batch_size): # This function computes the nb of errors that the model does on the test set
     # I took the function from previous work and didn't adapt it to this net, but this should do.
-    nb_data_errors = 0
+    nb_comparison_errors = 0
+    nb_digitRecognition1_errors = 0
+    nb_digitRecognition2_errors = 0
     for b in range(0, data_input.size(0), mini_batch_size):
-        output = model(data_input.narrow(0, b, mini_batch_size))
-        _, predicted_classes = torch.max(output[0], 1) # WTF
+        comparison, x1, x2 = model(data_input.narrow(0, b, mini_batch_size))
+        _, predicted_comparison = torch.max(comparison, dim = 1)
+        _, predicted_digit1 = torch.max(x1, dim=1)
+        _, predicted_digit2 = torch.max(x2, dim=1)
         for k in range(mini_batch_size):
-            if data_target[b + k] != predicted_classes[k]:
-                nb_data_errors = nb_data_errors + 1
-    return nb_data_errors
+            if data_comparison[b + k] != predicted_comparison[k]:
+                nb_comparison_errors = nb_comparison_errors + 1
+            if digits1[b + k] != predicted_digit1[k]:
+                nb_digitRecognition1_errors = nb_digitRecognition1_errors + 1
+            if digits2[b + k] != predicted_digit2[k]:
+                nb_digitRecognition2_errors = nb_digitRecognition2_errors + 1
+    return nb_comparison_errors, nb_digitRecognition1_errors, nb_digitRecognition2_errors
