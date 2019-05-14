@@ -51,13 +51,63 @@ def relu(input):
             output[index] = 0
     return output.reshape(original_shape)
 
+# TODO: check that below forms work, track w/ debug
+
 
 def loss(v, t):
-    arg_v = v.argmax(dim=1)
-    arg_t = t.argmax(dim=1)
-    errors = (arg_v - arg_t).nonzero().shape[0]
-    return (v-t).pow(2).sum(), errors
+    #print(v.shape, v)
+    #print(t.shape, t)
+    arg_t = split(t)
+    print(arg_t)
+    labels = cast_values(arg_t)
+    arg_v = split(v.argmax(dim=1))
+    print(arg_v.shape)
+    assert arg_v.shape == arg_t.shape
+    errors = (arg_v.sub_(arg_t)).nonzero().shape[0]
+    return (v-labels).pow(2).sum(), errors
+
+
+def split(data):
+    output = torch.empty(data.shape[0], 2)
+    for ind, value in enumerate(data):
+        if value.item() == 1:
+            output[ind] = torch.Tensor([0, 1])
+        elif value.item() == 0:
+            output[ind] = torch.Tensor([1, 0])
+        else:
+            print(value.item())
+            raise ValueError
+    return output
+
+
+def round_data(data):
+    original_shape = data.shape
+    output = torch.empty(data.view(-1).shape)
+    for ind, value in enumerate(data.view(-1)):
+        output[ind] = float(round(value.item()))
+    output.reshape_(original_shape)
+    assert data.view(-1)[0] != output.view(-1)[0]
+    return output
 
 
 def dloss(v, t):
     return 2 * (v-t) # TODO: try t-v, observe behavior.
+
+
+def generate_data(nb):
+    data = torch.Tensor(nb, 2).uniform_(0, 1)
+    labels = data.pow(2).sum(1).sub(2/math.pi).mul(-1).sign().add(1).div(2)
+    return data, labels
+
+
+def cast_values(labels):
+    shape = labels.shape
+    output = torch.empty(labels.view(-1).shape)
+    for ind, value in enumerate(labels.view(-1)):
+        if value.item() == 1:
+            output[ind] = 0.95
+        elif value.item() == 0:
+            output[ind] = -0.95
+        else:
+            raise ValueError
+    return output.reshape(shape)
