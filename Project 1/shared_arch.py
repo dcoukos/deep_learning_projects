@@ -73,6 +73,20 @@ class Whole_Shared_Net(nn.Module):
         x = self.comparisonNet(torch.cat((digit1_hot, digit2_hot), dim=1))
         return digit1_hot, digit2_hot, x
 
+class Whole_UnShared_Net(nn.Module):
+    def __init__(self):
+        super(Whole_UnShared_Net, self).__init__()
+        self.sharedNet1 = SharedWeight_Net2()
+        self.sharedNet2 = SharedWeight_Net2()
+        self.comparisonNet = Comparison_Net_Hot()
+    def forward(self, x):
+        images1, images2 = split_images(x)
+        digit1_hot = self.sharedNet1(images1)
+        digit2_hot = self.sharedNet2(images2)
+        #before x = self.comparisonNet(torch.cat((digit1_hot, digit2_hot), dim=1))
+        x = self.comparisonNet(torch.cat((digit1_hot, digit2_hot), dim=1))
+        return digit1_hot, digit2_hot, x
+
 
 class Comparison_Net_Cold(nn.Module):
     # this module takes as input a hot vector of size 2 (with the index of the correct class)

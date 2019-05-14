@@ -28,7 +28,7 @@ def count_parameters(model):
     return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
 
-# #
+# # #
 # # # #training the SharedWeight_Net
 # print('Shared Weight Net 2')
 # model_shared2 = SharedWeight_Net2()
@@ -43,12 +43,22 @@ def count_parameters(model):
 # net_hot = Comparison_Net_Hot()
 # train_model(net_hot, convert_to_hot(train_digits), train_comparison, convert_to_hot(val_digits), val_comparison, 100, 25, 0.2)
 # # # # # with lr = 0.01 final error 16%, 0.005 31%, 0.05 2.3%, lr = 0.2 0%
-#
-# print('Comparison Net Full')
-# net_full = Whole_Shared_Net()
-# print(count_parameters(net_full))
-# train_model(net_full, train_images, (train_digit1, train_digit2, train_comparison), val_images, (val_digit1, val_digit2, val_comparison), 100, 25, 0.005, full = True)
-#
+
+print('Comparison Net Full with Shared Weights')
+net_full_shared = Whole_Shared_Net()
+print(count_parameters(net_full_shared))
+train_model(net_full_shared, train_images, (train_digit1, train_digit2, train_comparison), val_images, (val_digit1, val_digit2, val_comparison), 100, 25, 0.005, full = True)
+
+print('Comparison Net Full without Shared Weights')
+net_full_unshared = Whole_UnShared_Net()
+print(count_parameters(net_full_unshared))
+train_model(net_full_unshared, train_images, (train_digit1, train_digit2, train_comparison), val_images, (val_digit1, val_digit2, val_comparison), 100, 25, 0.005, full = True)
+
+print('Comparison without auxiliary loss')
+net_full_shared_2 = Whole_Shared_Net()
+print(count_parameters(net_full_shared))
+train_model(net_full_shared_2, train_images, (train_digit1, train_digit2, train_comparison), val_images, (val_digit1, val_digit2, val_comparison), 100, 25, 0.005, full = True, auxiliaryLoss = 0)
+
 
 #now we try to train first the shared and then the hot with the output of the shared
 print('Full Net with Concatenation of already trained parts')
@@ -60,7 +70,7 @@ train_model(model_shared3, train_image1, train_digit1, val_image1, val_digit1, 1
 
 print('Training comparison on the output')
 net_hot_2 = Comparison_Net_Hot()
-train_model(net_hot_2, torch.cat((torch.max(model_shared3(train_image1).detach(), dim = 1), torch.max(model_shared3(train_image2).detach(), dim = 1)), dim = 1), train_comparison, torch.cat((torch.max(model_shared3(val_image1).detach(), dim = 1), torch.max(model_shared3(val_image2).detach(), dim = 1)), dim = 1), val_comparison, 100, 25, 0.005)
+train_model(net_hot_2, convert_to_hot(torch.cat((torch.argmax(model_shared3(train_image1).detach(), dim = 1, keepdim = True), torch.argmax(model_shared3(train_image2).detach(), dim = 1, keepdim = True)), dim = 1)), train_comparison, convert_to_hot(torch.cat((torch.argmax(model_shared3(val_image1).detach(), dim = 1, keepdim = True), torch.argmax(model_shared3(val_image2).detach(), dim = 1, keepdim = True)), dim = 1)), val_comparison, 100, 25, 0.2)
 
 
 

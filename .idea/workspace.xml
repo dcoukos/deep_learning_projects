@@ -15,7 +15,7 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/deep_learning_projects$Testing.coverage" NAME="Testing Coverage Results" MODIFIED="1557482301743" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Project 1/Version 2" />
-    <SUITE FILE_PATH="coverage/deep_learning_projects$Comparison_architectures__1_.coverage" NAME="Comparison_architectures (1) Coverage Results" MODIFIED="1557835036586" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Project 1" />
+    <SUITE FILE_PATH="coverage/deep_learning_projects$Comparison_architectures__1_.coverage" NAME="Comparison_architectures (1) Coverage Results" MODIFIED="1557842573615" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Project 1" />
     <SUITE FILE_PATH="coverage/deep_learning_projects$Little_tests.coverage" NAME="Little_tests Coverage Results" MODIFIED="1555674967105" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/deep_learning_projects$Comparison_architectures.coverage" NAME="Comparison_architectures Coverage Results" MODIFIED="1557499052398" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/deep_learning_projects$shared_arch.coverage" NAME="shared_arch Coverage Results" MODIFIED="1555672193589" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -24,11 +24,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Comparison_architectures.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Comparison_architectures.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Project 1/Comparison_architectures.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="193">
-              <caret line="65" lean-forward="true" selection-start-line="65" selection-end-line="65" />
+            <state relative-caret-position="314">
+              <caret line="70" column="42" lean-forward="true" selection-start-line="70" selection-start-column="42" selection-end-line="70" selection-end-column="42" />
               <folding>
                 <element signature="e#0#36#0" expanded="true" />
               </folding>
@@ -36,13 +36,45 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="shared_arch.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="shared_arch.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Project 1/shared_arch.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-634">
-              <caret line="140" column="17" lean-forward="true" selection-start-line="140" selection-start-column="17" selection-end-line="140" selection-end-column="17" />
+            <state relative-caret-position="8">
+              <caret line="141" column="164" lean-forward="true" selection-start-line="141" selection-start-column="145" selection-end-line="141" selection-end-column="164" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dlc_practical_prologue.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Project 1/dlc_practical_prologue.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-146">
+              <caret line="127" column="25" selection-start-line="127" selection-start-column="25" selection-end-line="127" selection-end-column="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Test_File.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Project 1/Test_File.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-206">
+              <folding>
+                <element signature="e#0#36#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Little_tests.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Project 1/Little_tests.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="94">
+              <caret line="7" column="27" lean-forward="true" selection-start-line="7" selection-start-column="27" selection-end-line="7" selection-end-column="27" />
+              <folding>
+                <element signature="e#0#15#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -285,7 +317,7 @@
       <window_info anchor="bottom" id="Python Console" order="7" weight="0.32876712" />
       <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3652968" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32876712" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15831988" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.112277865" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="SciView" order="3" visible="true" weight="0.07754443" />
@@ -329,67 +361,84 @@
           <line>29</line>
           <option name="timeStamp" value="27" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Project 1/Comparison_architectures.py</url>
-          <line>62</line>
-          <option name="timeStamp" value="33" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Project 1/Comparison_architectures.py</url>
-          <line>61</line>
-          <option name="timeStamp" value="34" />
-        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="35" />
+      <option name="time" value="38" />
     </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
+    <expressions id="evaluateCodeFragment">
+      <expression>
+        <expression-string>convert_to_hot(torch.cat((torch.argmax(model_shared3(train_image1).detach(), dim = 1, keepdim = True), torch.argmax(model_shared3(train_image2).detach(), dim = 1, keepdim = True)), dim = 1))</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>convert_to_hot(torch.cat((torch.argmax(model_shared3(train_image1).detach(), dim = 1, keepdim = True), torch.argmax(model_shared3(train_image1).detach(), dim = 1, keepdim = True)), dim = 1))</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>torch.cat((torch.argmax(model_shared3(train_image1).detach(), dim = 1, keepdim = True), torch.argmax(model_shared3(train_image1).detach(), dim = 1, keepdim = True)), dim = 1)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>torch.argmax(model_shared3(train_image1).detach(), dim = 1, keepdim = True)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>torch.argmax(model_shared3(train_image1).detach(), dim = 1)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+    </expressions>
     <expressions id="evaluateExpression">
       <expression>
-        <expression-string>F.softmax(model_shared3(torch.narrow(test_image1, 0, 0, 1)).detach())</expression-string>
+        <expression-string>torch.cat((torch.argmax(model_shared3(train_image1).detach(), dim = 1), torch.argmax(model_shared3(train_image2).detach(), dim=1)), dim = 1)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>F.softmax(model_shared3(torch.narrow(test_image1, 0, 0, 1)))</expression-string>
+        <expression-string>torch.cat((torch.argmax(model_shared3(train_image1).detach(), dim = 1), torch.argmax(model_shared3(train_image2).detach())), dim = 1)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>F.softmax(model_shared3(torch.narrow(test_image1, 0, 0, 2)))</expression-string>
+        <expression-string>torch.cat((torch.argmax(model_shared3(train_image1).detach(), dim = 1), torch.argmax(model_shared3(train_image1).detach())), dim = 1)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>model_shared3(torch.narrow(test_image1, 0, 0, 2))</expression-string>
+        <expression-string>torch.cat((torch.argmax(model_shared3(train_image1).detach(), dim = 1), torch.argmax(model_shared3(train_image1).detach())), dim = 1))</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>model_shared3(test_image1[0])</expression-string>
+        <expression-string>torch.cat((torch.argmax(model_shared3(train_image1).detach(), dim = 1), torch.argmax(model_shared3(train_image1).detach()), dim = 1))</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>test_image1[0].size()</expression-string>
+        <expression-string>torch.cat(torch.argmax(model_shared3(train_image1).detach(), dim = 1), torch.argmax(model_shared3(train_image1).detach(), dim = 1))</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>test_image1.size()</expression-string>
+        <expression-string>torch.argmax(model_shared3(train_image1).detach(), dim = 1)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>test_image1[0]</expression-string>
+        <expression-string>A = torch.cat((torch.argmax(model_shared3(train_image1).detach(), dim = 1), torch.argmax(model_shared3(train_image2).detach(), dim = 1)))</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>model_shared3(test_image1[0].squeeze())</expression-string>
+        <expression-string>A = torch.cat((torch.argmax(model_shared3(train_image1).detach(), dim = 1), torch.argmax(model_shared3(train_image2).detach(), dim = 1)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
@@ -620,23 +669,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Project 1/Little_tests.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$USER_HOME$/anaconda3/lib/python3.7/site-packages/torch/nn/functional.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
           <caret line="1351" selection-start-line="1351" selection-end-line="1351" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Project 1/Test_File.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Project 1/dlc_practical_prologue.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1845">
-          <caret line="127" column="25" selection-start-line="127" selection-start-column="25" selection-end-line="127" selection-end-column="25" />
         </state>
       </provider>
     </entry>
@@ -689,22 +725,48 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Project 1/Comparison_architectures.py">
+    <entry file="file://$PROJECT_DIR$/Project 1/Test_File.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="193">
-          <caret line="65" lean-forward="true" selection-start-line="65" selection-end-line="65" />
+        <state relative-caret-position="-206">
           <folding>
             <element signature="e#0#36#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Project 1/Little_tests.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="94">
+          <caret line="7" column="27" lean-forward="true" selection-start-line="7" selection-start-column="27" selection-end-line="7" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Project 1/dlc_practical_prologue.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-146">
+          <caret line="127" column="25" selection-start-line="127" selection-start-column="25" selection-end-line="127" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Project 1/shared_arch.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-634">
-          <caret line="140" column="17" lean-forward="true" selection-start-line="140" selection-start-column="17" selection-end-line="140" selection-end-column="17" />
+        <state relative-caret-position="8">
+          <caret line="141" column="164" lean-forward="true" selection-start-line="141" selection-start-column="145" selection-end-line="141" selection-end-column="164" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Project 1/Comparison_architectures.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="314">
+          <caret line="70" column="42" lean-forward="true" selection-start-line="70" selection-start-column="42" selection-end-line="70" selection-end-column="42" />
+          <folding>
+            <element signature="e#0#36#0" expanded="true" />
           </folding>
         </state>
       </provider>
