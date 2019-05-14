@@ -154,7 +154,7 @@ def train_model(model, train_input, train_target, test_input, test_target, batch
                 loss = criterion(model(mini_batch), train_target.narrow(0, batch, batch_size).flatten().long()) #might need to flatten
             else:
                 digit1_hot, digit2_hot, comparison = model(mini_batch)
-                loss = auxiliaryLoss * criterion(digit1_hot, train_target[0].narrow(0, batch, batch_size).flatten().long()) + auxiliaryLoss * criterion(digit2_hot, train_target[1].narrow(0, batch, batch_size).flatten().long()) + (1-auxiliaryLoss) * criterion(comparison, train_target[2].narrow(0, batch, batch_size).flatten().long())
+                loss = auxiliaryLoss * criterion(digit1_hot, train_target[0].narrow(0, batch, batch_size).flatten().long()) + auxiliaryLoss * criterion(digit2_hot, train_target[1].narrow(0, batch, batch_size).flatten().long()) + (1-2 * auxiliaryLoss) * criterion(comparison, train_target[2].narrow(0, batch, batch_size).flatten().long())
             sum_loss += loss.item() # item = to digit.
             model.zero_grad() #What does this do again?
             loss.backward() #What does this do again?

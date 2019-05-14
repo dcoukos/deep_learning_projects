@@ -51,11 +51,11 @@ def frange(start, stop=None, step=None):
         start = start + step
         
         
-print('Training the Full net with Weightsharing and auxilarry Loss= {:0.2f} with varying lr :'.format(AuxilaryLoss))
+print('Training the Full net with Weightsharing and auxilary Loss= {:0.2f} with varying lr :'.format(AuxilaryLoss))
 for lr in np.linspace(lr_min, lr_max, n_lr):
     model=Whole_Shared_Net()
     print('Training with lr= {:0.4f}'.format(lr))
-    train_model(model, trainVal_images, (train_digit1, train_digit2, train_comparison), val_images, (val_digit1, val_digit2, val_comparison), batch_size, epochs, lr, printing , True, AuxilaryLoss)
+    train_model(model, train_images, (train_digit1, train_digit2, train_comparison), val_images, (val_digit1, val_digit2, val_comparison), batch_size, epochs, lr, printing , True, AuxilaryLoss)
 
     
 def Optimize_parameter(model, lr_range, AuxilaryLoss_range):
