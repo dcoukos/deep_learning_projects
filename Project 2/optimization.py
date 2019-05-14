@@ -58,13 +58,11 @@ def loss(v, t):
     #print(v.shape, v)
     #print(t.shape, t)
     arg_t = split(t)
-    print(arg_t)
     labels = cast_values(arg_t)
     arg_v = split(v.argmax(dim=1))
-    print(arg_v.shape)
     assert arg_v.shape == arg_t.shape
-    errors = (arg_v.sub_(arg_t)).nonzero().shape[0]
-    return (v-labels).pow(2).sum(), errors
+    errors = (arg_v.sub_(arg_t)).nonzero().shape[0]/2
+    return (v-labels).pow(2).sum(), int(errors)
 
 
 def split(data):
@@ -75,7 +73,6 @@ def split(data):
         elif value.item() == 0:
             output[ind] = torch.Tensor([1, 0])
         else:
-            print(value.item())
             raise ValueError
     return output
 
@@ -91,7 +88,9 @@ def round_data(data):
 
 
 def dloss(v, t):
-    return 2 * (v-t) # TODO: try t-v, observe behavior.
+    arg_t = split(t)
+    labels = cast_values(arg_t)
+    return 2 * (v-labels) # TODO: try t-v, observe behavior.
 
 
 def generate_data(nb):

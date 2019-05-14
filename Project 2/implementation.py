@@ -29,7 +29,7 @@ train_features
 nb_classes = train_label.shape[0]
 features = train_features.size(1)
 nb_samples = train_features.size(0)
-epsilon = 0.000001
+epsilon = 0.0000000 1
 eta = 0.1  #nb_samples is now defined in Sequential()
 epochs = 100
 
