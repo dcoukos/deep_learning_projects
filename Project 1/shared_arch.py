@@ -69,6 +69,7 @@ class Whole_Shared_Net(nn.Module):
         images1, images2 = split_images(x)
         digit1_hot = self.sharedNet(images1)
         digit2_hot = self.sharedNet(images2)
+        #before x = self.comparisonNet(torch.cat((digit1_hot, digit2_hot), dim=1))
         x = self.comparisonNet(torch.cat((digit1_hot, digit2_hot), dim=1))
         return digit1_hot, digit2_hot, x
 
@@ -147,7 +148,7 @@ def train_model(model, train_input, train_target, test_input, test_target, batch
         with torch.no_grad():
             if printing == True:
                 if not full:
-                    print('epoch {:d} train error: {:0.2f}% test error: {:0.2f}%'.format(epoch, compute_nb_errors(model, train_input, train_target, batch_size) / test_input.size(0) * 100, compute_nb_errors(model, test_input, test_target, batch_size) / test_input.size(0) * 100))
+                    print('epoch {:d} train error: {:0.2f}% test error: {:0.2f}%'.format(epoch, compute_nb_errors(model, train_input, train_target, batch_size) / train_input.size(0) * 100, compute_nb_errors(model, test_input, test_target, batch_size) / test_input.size(0) * 100))
                 else:
                     size_train = train_input.size()[0]
                     size_test = test_input.size()[0]
