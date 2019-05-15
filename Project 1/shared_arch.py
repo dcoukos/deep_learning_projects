@@ -14,6 +14,7 @@ def split_images(data):
     images2 = data.narrow(1,1,1)
     return images1, images2
 
+
 class SharedWeight_Net(nn.Module):
     #takes as input a 14x14 image and returns a tensor with 10 entries for 10 class scores
     def __init__(self):
@@ -49,6 +50,23 @@ class SharedWeight_Net2(nn.Module): # This is different from SharedWeight_Net, i
         x = self.lin2(x.view(-1, 200))
         return x
 
+class SharedWeight_Net_Binary(nn.Module): # This is different from SharedWeight_Net, it is inspired more from the model given in the course as example, and has more parameters ( closer to the 70'000 asked in the project description).
+    def __init__(self):
+        super(SharedWeight_Net_Binary, self).__init__()
+        self.conv1 = nn.Conv2d(1, 32, kernel_size=(3, 3), stride=(1, 1)) #14->12
+        self.conv2 = nn.Conv2d(32, 64, kernel_size=(5, 5), stride=(1, 1)) # 12 -> 8
+        self.lin1 = nn.Linear(256,200)
+        self.lin2 = nn.Linear(200, 5)
+        # self.out = nn.Linear(20, 1) #TODO: test w/ addtional Output Layer
+
+    def forward(self, x):
+        x = F.relu(self.conv1(x)) #12->12
+        x = F.relu(F.max_pool2d(self.conv2(x), kernel_size=4, stride=4, dilation = 1)) # 12 -> 2
+        x = F.relu(self.lin1(x.view(-1, 256)))
+        x = self.lin2(x.view(-1, 200))
+        return x
+
+
 class Comparison_Net_Hot(nn.Module):
     # this module takes as input a hot vector of size 20 (with all zeros and 1 at the place of the correct class) from the shared_weight net
     # and returns two activations (that will correspond to "bigger" neuron or to "smaller or/equal" neuron)
@@ -58,6 +76,17 @@ class Comparison_Net_Hot(nn.Module):
 
     def forward(self, x):
         x = F.relu(self.lin(x.view(-1, 20)))
+        return x
+
+class Comparison_Net_Binary(nn.Module):
+    # this module takes as input a hot vector of size 20 (with all zeros and 1 at the place of the correct class) from the shared_weight net
+    # and returns two activations (that will correspond to "bigger" neuron or to "smaller or/equal" neuron)
+    def __init__(self):
+        super(Comparison_Net_Binary, self).__init__()
+        self.lin = nn.Linear(10,2)
+
+    def forward(self, x):
+        x = F.relu(self.lin(x.view(-1, 10)))
         return x
 
 class Whole_Shared_Net(nn.Module):
@@ -72,6 +101,48 @@ class Whole_Shared_Net(nn.Module):
         #before x = self.comparisonNet(torch.cat((digit1_hot, digit2_hot), dim=1))
         x = self.comparisonNet(torch.cat((digit1_hot, digit2_hot), dim=1))
         return digit1_hot, digit2_hot, x
+
+class Whole_Shared_Net_NoiseRemoval(nn.Module):
+    def __init__(self):
+        super(Whole_Shared_Net_NoiseRemoval, self).__init__()
+        self.sharedNet = SharedWeight_Net2()
+        self.comparisonNet = Comparison_Net_Hot()
+    def forward(self, x):
+        images1, images2 = split_images(x)
+        digit1_hot = self.sharedNet(images1)
+        digit2_hot = self.sharedNet(images2)
+        #before x = self.comparisonNet(torch.cat((digit1_hot, digit2_hot), dim=1))
+        x = self.comparisonNet(convert_to_hot(torch.cat((torch.argmax(digit1_hot, dim = 1, keepdim = True), torch.argmax(digit2_hot, dim = 1, keepdim = True)), dim = 1)))
+        return digit1_hot, digit2_hot, x
+
+
+class Whole_Shared_Net_Binary(nn.Module):
+    def __init__(self):
+        super(Whole_Shared_Net_Binary, self).__init__()
+        self.sharedNet = SharedWeight_Net_Binary()
+        self.comparisonNet = Comparison_Net_Binary()
+    def forward(self, x):
+        images1, images2 = split_images(x)
+        digit1_hot = self.sharedNet(images1)
+        digit2_hot = self.sharedNet(images2)
+        x = self.comparisonNet(torch.cat((digit1_hot, digit2_hot), dim=1))
+        return x
+
+
+class Whole_FC_Net(nn.Module):
+    def __init__(self):
+        super(Whole_FC_Net, self).__init__()
+        self.lin0 = nn.Linear(392, 256)
+        self.lin1 = nn.Linear(256, 200)
+        self.lin2 = nn.Linear(200, 5)
+        self.lin3 = nn.Linear(5, 2)
+    def forward(self, x):
+        x = x.view(-1, 392)
+        x = F.relu(self.lin0(x))
+        x = F.relu(self.lin1(x))
+        x = F.relu(self.lin2(x))
+        x = F.relu(self.lin3(x))
+        return x
 
 class Whole_UnShared_Net(nn.Module):
     def __init__(self):
@@ -154,7 +225,7 @@ def train_model(model, train_input, train_target, test_input, test_target, batch
                 loss = criterion(model(mini_batch), train_target.narrow(0, batch, batch_size).flatten().long()) #might need to flatten
             else:
                 digit1_hot, digit2_hot, comparison = model(mini_batch)
-                loss = auxiliaryLoss * criterion(digit1_hot, train_target[0].narrow(0, batch, batch_size).flatten().long()) + auxiliaryLoss * criterion(digit2_hot, train_target[1].narrow(0, batch, batch_size).flatten().long()) + (1-auxiliaryLoss) * criterion(comparison, train_target[2].narrow(0, batch, batch_size).flatten().long())
+                loss = auxiliaryLoss * criterion(digit1_hot, train_target[0].narrow(0, batch, batch_size).flatten().long()) + auxiliaryLoss * criterion(digit2_hot, train_target[1].narrow(0, batch, batch_size).flatten().long()) + (1-2 * auxiliaryLoss) * criterion(comparison, train_target[2].narrow(0, batch, batch_size).flatten().long())
             sum_loss += loss.item() # item = to digit.
             model.zero_grad() #What does this do again?
             loss.backward() #What does this do again?
