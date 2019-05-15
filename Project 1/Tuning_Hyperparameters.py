@@ -3,33 +3,33 @@ from shared_arch import *
 from torch.nn import functional as F
 # import numpy as np # For the linspace function only !
 
-def Scan_parameters(model, lr_range, AuxilaryLoss_range, full): # horrible function to scan the lr and auxilary loss parameters and return a tensor with the results.
-        err_digit1=torch.zeroes(size(lr_range, 0), size(AuxilaryLoss_range, 0))
-        err_digit2=err_digit1
-        err_class=err_digit1
-        i=0
-        j=0
+def Scan_parameters(model, lr_range, AuxilaryLoss_range, full, val_images, val_digit1, val_digit2, val_comparison): # horrible function to scan the lr and auxilary loss parameters and return a tensor with the results.
+    err_digit1=torch.zeros(lr_range.size(0), AuxilaryLoss_range.size(0))
+    err_digit2=torch.zeros(lr_range.size(0), AuxilaryLoss_range.size(0))
+    err_class=torch.zeros(lr_range.size(0), AuxilaryLoss_range.size(0))
+    i=0
     for lr in lr_range:
+        j=0
         for AuxilaryLoss in AuxilaryLoss_range:
             # model.reset() # Not sure it exists, so I do :
             model_temp=model
             print('Training with lr={:0.2f}, AuxilaryLoss ={:0.2f}'.format(lr, AuxilaryLoss))
             if full: 
                 train_model(model_temp, train_images, (train_digit1, train_digit2, train_comparison), val_images, (val_digit1, val_digit2, val_comparison), batch_size, epochs, lr, printing , True, AuxilaryLoss)
-                digit1_test_error, digit2_test_error, comparison_test_error = compute_nb_errors(model, test_images, (test_digit1, test_digit2, test_comparison), batch_size, True)
-                err_digit1[i][j]=(100*digit1_test_error/test_images.size()[0])
-                err_digit2[i][j]=(100*digit2_test_error/test_images.size()[0])
-                err_class[i][j]=(100*comparison_test_error/test_images.size()[0])
+                digit1_test_error, digit2_test_error, comparison_test_error = compute_nb_errors(model, val_images, (val_digit1, val_digit2, val_comparison), batch_size, True)
+                err_digit1[i][j]=(100*digit1_test_error/val_images.size()[0])
+                err_digit2[i][j]=(100*digit2_test_error/val_images.size()[0])
+                err_class[i][j]=(100*comparison_test_error/val_images.size()[0])
             if not full:
                 train_model(model_temp, train_images, (train_digit1, train_digit2, train_comparison), val_images, val_comparison, batch_size, epochs, lr, printing , False, AuxilaryLoss)
-                comparison_test_error = compute_nb_errors(model, test_images, test_comparison, batch_size, False)
-                err_class[i][j]=(100*comparison_test_error/test_images.size()[0])
+                comparison_test_error = compute_nb_errors(model, val_images, val_comparison, batch_size, False)
+                err_class[i][j]=(100*comparison_test_error/val_images.size()[0])
             j=j+1
         i=i+1
     if full:
-    return err_digit1, err_digit2, err_class
+        return err_digit1, err_digit2, err_class
     elif not full:
-    return err_class
+        return err_class
         
 def Iter_AuxilaryLoss(model, AuxilaryLoss_range): # This function iterates acorss a range of values of the auxiliaryloss (once the lr set), and savec the evolution of the final error rate on digit recognition and comparison of the full net to plot it later. todo: put all the arguments properly
     i=0
@@ -68,17 +68,17 @@ test_digit1, test_digit2 = split_images(test_digits)
 
 # Training parameters :
 batch_size=100
-epochs=25
+epochs=2
 lr_min = 0.001
 lr_max= 0.5
-n_lr=10
+n_lr=2
 printing =True
 AuxilaryLoss=0.1
 # Auxiliarryloss :
 AuxilaryLoss=0.1
 AuxilaryLoss_min=0
-AuxilaryLoss_max=0.45
-n_AuxilaryLoss=10
+AuxilaryLoss_max=0.5
+n_AuxilaryLoss=2
 
 # Declaration of the model : 
 model=Whole_Shared_Net()
@@ -92,18 +92,23 @@ model=Whole_Shared_Net()
 #    train_model(model, train_images, (train_digit1, train_digit2, train_comparison), val_images, (val_digit1, val_digit2, val_comparison), batch_size, epochs, lr, printing , True, AuxilaryLoss) # So we use the validation set to set the hyperparameters.
 #    # Cnclusion : lr=0.0060 is the best learning rate, but not by far. It achieves 13.00% error rate on comparison on the test set. With this lr, I try several AuxilaryLoss values : 
     
-lr=0.006
-print('Tuning for auxiliary loss coefficient. Training the Full net with Weightsharing and lr = {:0.4f} with varying auxilarry Loss :'.format(lr))
-# Re-declare :
-model=Whole_Shared_Net()
-err_digit1, err_digit2, err_class= Iter_AuxilaryLoss(model, torch.linspace(AuxilaryLoss_min, AuxilaryLoss_max, n_AuxilaryLoss))
-print(err_digit1)
-print(err_digit2)
-print(err_class)
+#lr=0.006
+#print('Tuning for auxiliary loss coefficient. Training the Full net with Weightsharing and lr = {:0.4f} with varying auxilarry Loss :'.format(lr))
+## Re-declare :
+#model=Whole_Shared_Net()
+#err_digit1, err_digit2, err_class= Iter_AuxilaryLoss(model, torch.linspace(AuxilaryLoss_min, AuxilaryLoss_max, n_AuxilaryLoss))
+#print(err_digit1)
+#print(err_digit2)
+#print(err_class)
             
             
 # To be continued...
 # Faire le graph de errr on digit
-def Final_error_table(model
 # Re-declare :
-model=Whole_Shared_Net()
+model=Whole_Shared_Net() # This net is full.
+
+err_digit1, err_digit2, err_class = Scan_parameters(model, torch.linspace(lr_min, lr_max, n_lr), torch.linspace(AuxilaryLoss_min, AuxilaryLoss_max, n_AuxilaryLoss), True, val_images, val_digit1, val_digit2, val_comparison)
+
+print(err_digit1)
+print(err_digit2)
+print(err_class)
