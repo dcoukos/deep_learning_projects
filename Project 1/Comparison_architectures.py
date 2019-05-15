@@ -53,11 +53,27 @@ def count_parameters(model):
 # net_full_unshared = Whole_UnShared_Net()
 # print(count_parameters(net_full_unshared))
 # train_model(net_full_unshared, train_images, (train_digit1, train_digit2, train_comparison), val_images, (val_digit1, val_digit2, val_comparison), 100, 25, 0.005, full = True)
+#
+print('Whole FC Net')
+net_full_FC = Whole_FC_Net()
+print(count_parameters(net_full_FC))
+train_model(net_full_FC, train_images, train_comparison, val_images, val_comparison, 100, 25, lr= 0.0005, full = False)
 
+# print('Whole Shared Net Noise Removal')
+# net_full_Shared_NoiseFree = Whole_Shared_Net_NoiseRemoval()
+# print(count_parameters(net_full_Shared_NoiseFree))
+# train_model(net_full_Shared_NoiseFree, train_images, (train_digit1, train_digit2, train_comparison), val_images, (val_digit1, val_digit2, val_comparison), 100, 25, 0.2, full = True, auxiliaryLoss = 0)
+#
 print('Comparison without auxiliary loss')
 net_full_shared_2 = Whole_Shared_Net()
 print(count_parameters(net_full_shared_2))
-train_model(net_full_shared_2, train_images, (train_digit1, train_digit2, train_comparison), val_images, (val_digit1, val_digit2, val_comparison), 100, 25, 0.2, full = True, auxiliaryLoss = 0)
+train_model(net_full_shared_2, train_images, (train_digit1, train_digit2, train_comparison), val_images, (val_digit1, val_digit2, val_comparison), 100, 25, 0.0005, full = True, auxiliaryLoss = 0)
+
+print('Comparison without auxiliary loss binary')
+net_full_binary = Whole_Shared_Net_Binary()
+print(count_parameters(net_full_binary))
+train_model(net_full_binary, train_images, train_comparison, val_images, val_comparison, 100, 25, 0.0005, full = False, auxiliaryLoss = 0)
+
 
 
 #now we try to train first the shared and then the hot with the output of the shared
