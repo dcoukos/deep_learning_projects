@@ -3,7 +3,7 @@ from shared_arch import *
 from torch.nn import functional as F
 # import numpy as np # For the linspace function only !
 
-def Scan_parameters(model, lr_range, AuxilaryLoss_range, full, val_images, val_digit1, val_digit2, val_comparison): # horrible function to scan the lr and auxilary loss parameters and return a tensor with the results.
+def Scan_parameters(model, lr_range, AuxilaryLoss_range, printing, full, val_images, val_digit1, val_digit2, val_comparison): # horrible function to scan the lr and auxilary loss parameters and return a tensor with the results.
     err_digit1=torch.zeros(lr_range.size(0), AuxilaryLoss_range.size(0))
     err_digit2=torch.zeros(lr_range.size(0), AuxilaryLoss_range.size(0))
     err_class=torch.zeros(lr_range.size(0), AuxilaryLoss_range.size(0))
@@ -68,18 +68,18 @@ test_digit1, test_digit2 = split_images(test_digits)
 
 # Training parameters :
 batch_size=100
-epochs=2
+epochs=25
 lr_min = 0.001
 lr_max= 0.5
-n_lr=2
+n_lr=10
+lr_range=torch.logspace(torch.log10(torch.tensor(lr_min)), torch.log10(torch.tensor(lr_max)), n_lr)
 printing =True
 AuxilaryLoss=0.1
 # Auxiliarryloss :
-AuxilaryLoss=0.1
 AuxilaryLoss_min=0
 AuxilaryLoss_max=0.5
-n_AuxilaryLoss=2
-
+n_AuxilaryLoss=10
+AuxilaryLoss_range=torch.linspace(AuxilaryLoss_min, AuxilaryLoss_max, n_AuxilaryLoss)
 # Declaration of the model : 
 model=Whole_Shared_Net()
 
@@ -107,8 +107,12 @@ model=Whole_Shared_Net()
 # Re-declare :
 model=Whole_Shared_Net() # This net is full.
 
-err_digit1, err_digit2, err_class = Scan_parameters(model, torch.linspace(lr_min, lr_max, n_lr), torch.linspace(AuxilaryLoss_min, AuxilaryLoss_max, n_AuxilaryLoss), True, val_images, val_digit1, val_digit2, val_comparison)
+err_digit1, err_digit2, err_class = Scan_parameters(model, lr_range, AuxilaryLoss_range, False, True, val_images, val_digit1, val_digit2, val_comparison)
 
 print(err_digit1)
 print(err_digit2)
 print(err_class)
+print('with auxilary loss: ')
+print(torch.linspace(AuxilaryLoss_min, AuxilaryLoss_max, n_AuxilaryLoss))
+print( 'with lr : ')
+print(torch.linspace(lr_min, lr_max, n_lr))
