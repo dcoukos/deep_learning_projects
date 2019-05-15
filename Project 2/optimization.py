@@ -5,14 +5,14 @@ from numpy import heaviside
 import modules
 
 
-def xavier_initialization(in_dim, out_dim, bias, gain=1):
+def xavier_initialization(in_dim, out_dim, act_fn, gain=1):
     '''simplified xavier function to initialize weights '''
     if config.show_calls:
         print('--- using Xavier ---')
-    if isinstance(bias, modules.ReLU):
+    if isinstance(act_fn, modules.ReLU):
         gain = math.sqrt(2.0)
     std = gain*math.sqrt(2/(in_dim+out_dim))
-    parameters = torch.empty(out_dim, in_dim + 1).normal_(0, std).double()
+    parameters = torch.empty(out_dim, in_dim + 1).normal_(0, std)
     weights = parameters.narrow(1, 0, in_dim)
     bias = parameters.narrow(1, in_dim, 1)
 
@@ -97,7 +97,7 @@ def dloss(v, t):
 
 
 def generate_data(nb):
-    data = torch.Tensor(nb, 2).uniform_(0, 1).double()
+    data = torch.Tensor(nb, 2).uniform_(0, 1)
     labels = data.pow(2).sum(1).sub(2/math.pi).mul(-1).sign().add(1).div(2)
     return data, labels
 

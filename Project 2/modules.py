@@ -40,7 +40,7 @@ class Linear(Module):
         self.out_dim = out_dim
         self.weights, self.bias = xavier_initialization(in_dim, out_dim,
                                                         act_fn)
-        self.dl_dw = torch.empty(self.weights.shape)  # Gradients
+        self.dl_dw = torch.empty(self.weights.shape) # Gradients
         self.dl_db = torch.empty(self.bias.shape)
         self.activation = act_fn
         self.layer_output = torch.Tensor()

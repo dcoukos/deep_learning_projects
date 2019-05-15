@@ -46,6 +46,8 @@ architecture = Sequential(Linear(2, 25, ReLU()),
 # ----- Training -----
 round = 1
 for epoch in range(epochs):
+    if round == 25:
+        eta = 0.001
     loss, errors = architecture.forward(train_features, train_label)
     architecture.backward()
     architecture.update(eta)
