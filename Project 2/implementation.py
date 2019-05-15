@@ -16,7 +16,7 @@ the learning rates, number of epochs, and other parameters are defined.
 # ----- Debugging parameters -----
 config.show_calls = False
 config.show_shapes = False
-torch . set_grad_enabled(False)
+torch.set_grad_enabled(False)
 
 # ----- Loading the data -----
 train_features, train_label = generate_data(1000)
@@ -29,8 +29,8 @@ nb_classes = train_label.shape[0]
 features = train_features.size(1)
 nb_samples = train_features.size(0)
 epsilon = 0.1
-eta = 0.01  #nb_samples is now defined in Sequential()
-epochs = 100
+eta = 0.1  #nb_samples is now defined in Sequential()
+epochs = 1000
 
 # Zeta is to make it work correctly with Sigma activation function.
 # train_label = train_label.add(0.125).mul(0.8)
@@ -46,6 +46,10 @@ architecture = Sequential(Linear(2, 25, ReLU()),
 # ----- Training -----
 round = 1
 for epoch in range(epochs):
+    if round == 50:
+        eta = 0.01
+    if round == 200:
+        eta = 0.001
     loss, errors = architecture.forward(train_features, train_label)
     architecture.backward()
     architecture.update(eta)
