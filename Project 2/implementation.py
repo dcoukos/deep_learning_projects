@@ -23,14 +23,13 @@ train_features, train_label = generate_data(1000)
 test_features, test_label = generate_data(1000)
 
 
-train_features
 
 #  ----- Define the paramters for learning -----
 nb_classes = train_label.shape[0]
 features = train_features.size(1)
 nb_samples = train_features.size(0)
-epsilon = 0.0000000 1
-eta = 0.1  #nb_samples is now defined in Sequential()
+epsilon = 0.1
+eta = 0.01  #nb_samples is now defined in Sequential()
 epochs = 100
 
 # Zeta is to make it work correctly with Sigma activation function.

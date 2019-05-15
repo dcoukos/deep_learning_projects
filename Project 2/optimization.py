@@ -12,7 +12,7 @@ def xavier_initialization(in_dim, out_dim, bias, gain=1):
     if isinstance(bias, modules.ReLU):
         gain = math.sqrt(2.0)
     std = gain*math.sqrt(2/(in_dim+out_dim))
-    parameters = torch.empty(out_dim, in_dim + 1).normal_(0, std)
+    parameters = torch.empty(out_dim, in_dim + 1).normal_(0, std).double()
     weights = parameters.narrow(1, 0, in_dim)
     bias = parameters.narrow(1, in_dim, 1)
 
@@ -81,7 +81,10 @@ def round_data(data):
     original_shape = data.shape
     output = torch.empty(data.view(-1).shape)
     for ind, value in enumerate(data.view(-1)):
-        output[ind] = float(round(value.item()))
+        if value.item() > 0:
+            output[ind] = 1
+        elif value.item() < 0:
+            output[ind] = 0
     output.reshape_(original_shape)
     assert data.view(-1)[0] != output.view(-1)[0]
     return output
@@ -94,7 +97,7 @@ def dloss(v, t):
 
 
 def generate_data(nb):
-    data = torch.Tensor(nb, 2).uniform_(0, 1)
+    data = torch.Tensor(nb, 2).uniform_(0, 1).double()
     labels = data.pow(2).sum(1).sub(2/math.pi).mul(-1).sign().add(1).div(2)
     return data, labels
 
