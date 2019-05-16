@@ -19,14 +19,15 @@ def xavier_initialization(in_dim, out_dim, act_fn, gain=1):
     if config.show_shapes:
         print('\txavier_initialization shapes\nWeights: ', str(weights.shape),\
               '\nBias: ', str(bias.shape))
-    return weights[None, :, :], bias.squeeze()
+    return weights, bias.squeeze()
 
 
-def sigma(x):
-    return x.tanh_()  # redefine using math?
+def tanh(x):
+    return (x.exp() - x.mul(-1).exp()) * (x.exp() + x.mul(-1).exp()).pow(-1)
+    # redefine using math?
 
 
-def dsigma(x):
+def dtanh(x):
     return 4*(x.exp() + x.mul(-1).exp()).pow(-2)
 
 
@@ -53,20 +54,8 @@ def loss(v, t):
 def split(data):
     output = torch.empty(data.shape[0], 2)
     isOne = (data == 1).long().view(-1, 1)
+    # isOne = (data == 1).long().view(-1, 1)
     return torch.cat([1 - isOne, isOne], dim=1) #check dim
-
-
-def round_data(data):
-    original_shape = data.shape
-    output = torch.empty(data.view(-1).shape)
-    for ind, value in enumerate(data.view(-1)):
-        if value.item() > 0:
-            output[ind] = 1
-        elif value.item() < 0:
-            output[ind] = 0
-    output.reshape_(original_shape)
-    assert data.view(-1)[0] != output.view(-1)[0]
-    return output
 
 
 def dloss(v, t):
@@ -83,4 +72,3 @@ def generate_data(nb):
 
 def cast_values(labels):
     return labels.float().mul(1.9).sub(.95)
-    

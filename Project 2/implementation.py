@@ -1,7 +1,7 @@
 import config
 # from modules import Linear
 import torch
-from modules import Linear, Sequential, ReLU, Sigma
+from modules import Linear, Sequential, ReLU, Tanh
 import dlc_practical_prologue as prologue
 from optimization import generate_data
 
@@ -17,6 +17,7 @@ the learning rates, number of epochs, and other parameters are defined.
 config.show_calls = False
 config.show_shapes = False
 torch.set_grad_enabled(False)
+torch.set_default_dtype(torch.float32)
 
 # ----- Loading the data -----
 train_features, train_label = generate_data(1000)
@@ -41,7 +42,7 @@ epochs = 1000
 architecture = Sequential(Linear(2, 25, ReLU()),
                           Linear(25, 25, ReLU()),
                           Linear(25, 25, ReLU()),
-                          Linear(25, 2, Sigma()))
+                          Linear(25, 2, Tanh()))
 
 # ----- Training -----
 round = 1

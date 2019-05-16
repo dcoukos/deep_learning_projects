@@ -47,12 +47,17 @@ class Linear(Module):
 
     def forward(self, input):  # Why *input vs. input?
         '''Applies forward linear transformation on the data'''
-        input = input[:, :, None]  # 1D -> 2D tensor for matrix calculations.
+        # input = input[:, :, None]  # 1D -> 2D tensor for matrix calculations.
         self.input = input
         if config.show_calls:
             print('    *Calling Linear.forward()')
-        layer_output = self.weights.matmul(input).squeeze() + self.bias
+        # What is the the size of their inputs?
+        # what is the shape of their weights?
+        # print(self.weights.shape)
+        layer_output = input.matmul(self.weights.t()).squeeze() + self.bias
+        # layer_output = self.weights.matmul(input).squeeze() + self.bias
         act_output = self.activation.forward(layer_output)
+        
         return act_output.squeeze()
 
     def backward(self, dl_dx):
@@ -111,29 +116,29 @@ class ReLU(Module, Activation):
         return drelu(self.prev_s)*dl_dx  # TODO: maybe this should be drelu
 
 
-class Sigma(Module, Activation):
+class Tanh(Module, Activation):
     '''Doc block!'''
     def __init__(self):
         if config.show_calls:
-            print('--- initializing Sigma ---')
+            print('--- initializing Tanh ---')
         self.prev_s = torch.Tensor()
 
     def forward(self, input):
         if config.show_calls:
-            print('    *Calling Sigma.forward()')
+            print('    *Calling Tanh.forward()')
         self.prev_s = input
-        return sigma(input)
+        return tanh(input)
 
     def backward(self, dl_dx):
         '''Sub-derivatives  in {0,1}'''
         if config.show_calls:
-            print('   *Calling Sigma.backward()')
+            print('   *Calling Tanh.backward()')
         if config.show_shapes:
             print('   shape prev_s: ', self.prev_s.shape)
             print('   shape dl_dx: ', dl_dx.view(-1, 1).shape)  # Nice! 1D ->2D
             # This makes the multiplication work correctly (doesn't make
             # shape 10x10, but instead (10*1)*(10*1) -> (10*1))
-        return dsigma(self.prev_s)*dl_dx
+        return dtanh(self.prev_s)*dl_dx
 
 
 class Sequential(Module):
