@@ -4,7 +4,7 @@ from torch.nn import functional as F
 # import numpy as np # For the linspace function only !
 
 def Scan_parameters(model, lr_range, AuxilaryLoss_range, full): # horrible function to scan the lr and auxilary loss parameters and return a tensor with the results.
-        err_digit1=torch.zeroes(size(lr_range, 0), size(AuxilaryLoss_range, 0))
+        err_digit1=torch.zeros(size(lr_range, 0), size(AuxilaryLoss_range, 0))
         err_digit2=err_digit1
         err_class=err_digit1
         i=0
