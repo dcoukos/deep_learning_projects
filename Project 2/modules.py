@@ -47,6 +47,7 @@ class Linear(Module):
 
     def forward(self, input):  # Why *input vs. input?
         '''Applies forward linear transformation on the data'''
+        # Matches the theory.
         input = input[:, :, None]  # 1D -> 2D tensor for matrix calculations.
         self.input = input
         if config.show_calls:
@@ -80,8 +81,6 @@ class Linear(Module):
         self.bias = self.bias - (eta*self.dl_db)
         self.dl_dw = torch.empty(self.weights.shape)
         self.dl_db = torch.empty(self.bias.shape)
-        self.prev_x = []
-        self.input = torch.Tensor()
 
 
 # TODO: possibly compress activations by including backward & forward in

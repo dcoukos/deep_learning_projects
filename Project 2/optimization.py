@@ -31,7 +31,13 @@ def dsigma(x):
 
 
 def drelu(x):
-    return x.clamp(min=0., max=1.)
+    is_neg = x >= 0
+    is_pos = x > 0
+    ret = x
+    ret[is_neg] = 0
+    ret[is_pos] = 1
+
+    return ret
 
 def relu(x):
     return x.clamp(min=0.)
@@ -82,5 +88,4 @@ def generate_data(nb):
 
 
 def cast_values(labels):
-    return labels.float().mul(1.9).sub(.95)
-    
+    return labels.double().mul(1.9).sub(.95)
