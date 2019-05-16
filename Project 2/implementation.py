@@ -4,6 +4,7 @@ import torch
 from modules import Linear, Sequential, ReLU, Sigma
 import dlc_practical_prologue as prologue
 from functions import generate_data
+import math
 
 '''
 This is the "main" file, and is where the actual architecture is defined.
@@ -30,7 +31,7 @@ nb_classes = train_labels.shape[0]
 features = train_features.size(1)
 nb_samples = train_features.size(0)
 epsilon = 0.1
-eta = .1  #nb_samples is now defined in Sequential()
+eta = .2  #nb_samples is now defined in Sequential()
 batch_size = 100
 epochs = int(2000/(nb_samples/batch_size))
 
@@ -48,29 +49,25 @@ architecture = Sequential(Linear(2, 25, ReLU()),
 
 # ----- Training -----
 round = 1
+prev_loss = math.inf
+prev_prev_loss = math.inf
 for epoch in range(epochs):
     for batch_start in range(0, nb_samples, batch_size):
         features = train_features[batch_start:batch_start+batch_size, :]
         labels = train_labels[batch_start:batch_start+batch_size]
-        #if round == 50:
-            #eta = 0.01
-        #if round == 200:
-        #    eta = 0.001
         loss, errors = architecture.forward(train_features, train_labels)
         architecture.backward()
         architecture.update(eta)
         print(' --- Round ', round, '  Loss: ', loss.item(), '---', ' Errors: ',
-              errors, '--- ')
-        if loss < 500:
-            eta = 0.05
-        if loss < 250:
-            eta = 0.04
-        if loss < 150:
-            eta = 0.035
-        if loss < 120:
-            eta = 0.025
-        if loss < 90:
-            eta = 0.02
+              errors)
+        if prev_loss < loss:
+            eta *= 0.999
+            if prev_prev_loss < loss:
+                eta *= 0.995
+
+        prev_prev_loss = prev_loss
+        prev_loss = loss
+
 
         round += 1
 
