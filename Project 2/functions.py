@@ -30,8 +30,16 @@ def dsigma(x):
     return 4*(x.exp() + x.mul(-1).exp()).pow(-2)
 
 
+def soft_drelu(x):
+    pass
+
 def drelu(x):
-    return x.clamp(min=0., max=1.)
+    # test with a .
+    ret = torch.tensor(x)
+    ret[x <= 0] = 0.
+    ret[x > 0] = 1.
+
+    return ret
 
 def relu(x):
     return x.clamp(min=0.)
@@ -82,5 +90,4 @@ def generate_data(nb):
 
 
 def cast_values(labels):
-    return labels.float().mul(1.9).sub(.95)
-    
+    return labels.double().mul(1.9).sub(.95)
