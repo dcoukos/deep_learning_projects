@@ -210,7 +210,7 @@ class Full_Net_Hot(nn.Module): # Niels: this is the combinated full net, that ta
         x =  torch.cat((x1, x2), dim=1)
         return self.comparison_model(x) # Might need to put a torch.cat((x1, x2), dim=0) here to feed the comparison model...
 
-def train_model(model, train_input, train_target, test_input, test_target, batch_size=100, epochs=150, lr = 0.01, printing = True, full = False, auxiliaryLoss = 0.2):  # TODO: implement smart learning rate
+def train_model(model, train_input, train_target, test_input, test_target, batch_size=100, epochs=150, lr = 0.01, printing = False, full = False, auxiliaryLoss = 0.2):  # TODO: implement smart learning rate
     # for the full net target is a tuple containing digit1, digit2, comparison
     criterion = torch.nn.CrossEntropyLoss() #Compare w/ softmargin loss
 
@@ -230,6 +230,7 @@ def train_model(model, train_input, train_target, test_input, test_target, batch
             model.zero_grad() #What does this do again?
             loss.backward() #What does this do again?
             optimizer.step() #includes model.train
+
         with torch.no_grad():
             if printing == True:
                 if not full:
