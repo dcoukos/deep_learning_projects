@@ -31,8 +31,8 @@ features = train_features.size(1)
 nb_samples = train_features.size(0)
 epsilon = 0.1
 eta = .1  #nb_samples is now defined in Sequential()
-batch_size = 1000
-epochs = int(1000/(nb_samples/batch_size))
+batch_size = 100
+epochs = int(2000/(nb_samples/batch_size))
 
 
 # Zeta is to make it work correctly with Sigma activation function.
@@ -61,10 +61,16 @@ for epoch in range(epochs):
         architecture.update(eta)
         print(' --- Round ', round, '  Loss: ', loss.item(), '---', ' Errors: ',
               errors, '--- ')
-        if errors < 50:
+        if loss < 500:
             eta = 0.05
+        if loss < 250:
+            eta = 0.04
+        if loss < 150:
+            eta = 0.035
         if loss < 120:
-            eta = 0.01
+            eta = 0.025
+        if loss < 90:
+            eta = 0.02
 
         round += 1
 
