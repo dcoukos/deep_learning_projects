@@ -30,12 +30,14 @@ def dsigma(x):
     return 4*(x.exp() + x.mul(-1).exp()).pow(-2)
 
 
+def soft_drelu(x):
+    pass
+
 def drelu(x):
-    is_neg = x >= 0
-    is_pos = x > 0
-    ret = x
-    ret[is_neg] = 0
-    ret[is_pos] = 1
+    # test with a .
+    ret = torch.tensor(x)
+    ret[x <= 0] = 0.
+    ret[x > 0] = 1.
 
     return ret
 

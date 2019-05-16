@@ -3,7 +3,7 @@ import config
 import torch
 from modules import Linear, Sequential, ReLU, Sigma
 import dlc_practical_prologue as prologue
-from optimization import generate_data
+from functions import generate_data
 
 '''
 This is the "main" file, and is where the actual architecture is defined.
@@ -30,7 +30,7 @@ nb_classes = train_labels.shape[0]
 features = train_features.size(1)
 nb_samples = train_features.size(0)
 epsilon = 0.1
-eta = 0.1  #nb_samples is now defined in Sequential()
+eta = .1  #nb_samples is now defined in Sequential()
 batch_size = 1000
 epochs = int(1000/(nb_samples/batch_size))
 

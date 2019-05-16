@@ -2,7 +2,7 @@ import math
 import torch
 from torch import Tensor
 import config
-from optimization import *
+from functions import *
 
 '''File for implementing module and its descendants. These are the classes
     that make up the architectural elements of the network. These classes
