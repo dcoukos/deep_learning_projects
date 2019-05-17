@@ -1,0 +1,13 @@
+error on digit 1 : 
+tensor([[88.6667, 90.7333]])
+tensor([[3.7287, 3.0006]])
+error on digit 2 : 
+tensor([[89.1333, 89.2333]])
+tensor([[2.5146, 3.3126]])
+error on their comparison : 
+tensor([[46.3667, 47.6333]])
+tensor([[0.5859, 3.4933]])
+with auxiliary loss : 
+tensor([0.0000, 0.5000])
+with lr : 
+tensor([1.0000e-05])

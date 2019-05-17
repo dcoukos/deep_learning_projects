@@ -4,18 +4,10 @@ from torch.nn import functional as F
 
 
 
-
-
-def weight_reset(m):
-    if isinstance(m, nn.Conv2d) or isinstance(m, nn.Linear):
-        m.reset_parameters()
-
 #  import numpy as np # For the linspace function only !
 
 def Scan_parameters(model_class, lr_range, AuxilaryLoss_range, printing, full, val_images, val_digit1, val_digit2,
                     val_comparison, epochs):  # horrible function to scan the lr and auxilary loss parameters and return a tensor with the results.
-
-    batch_size = 100
 
     val_digit1_error = torch.zeros(lr_range.size(0), AuxilaryLoss_range.size(0))
     val_digit2_error = torch.zeros(lr_range.size(0), AuxilaryLoss_range.size(0))
@@ -59,55 +51,68 @@ def Scan_parameters(model_class, lr_range, AuxilaryLoss_range, printing, full, v
         return val_class_error
 
 
-# Downloading test and train. Splitting the train into train and validation (in order to avoid hyperparameters tuning)
-
-trainVal_images, trainVal_comparison, trainVal_digits, \
-test_images, test_comparison, test_digits = dlc.generate_pair_sets(3000)
-
-# split train into train and validation
-train_images, val_images = split_TrainVal(trainVal_images)
-train_digits, val_digits = split_TrainVal(trainVal_digits)
-train_comparison, val_comparison = split_TrainVal(trainVal_comparison)
-
-train_image1, train_image2 = split_images(train_images)
-train_digit1, train_digit2 = split_images(train_digits)
-
-val_image1, val_image2 = split_images(val_images)
-val_digit1, val_digit2 = split_images(val_digits)
-
-test_image1, test_image2 = split_images(test_images)
-test_digit1, test_digit2 = split_images(test_digits)
 
 # Training parameters :
 
-epochs = 25 #Pao
-lr_min = 0.001 #Pao proposes 0.01
-lr_max = 0.5
+runs = 3
+epochs = 1 #Pao
+lr_min = 0.00001 #Pao proposes 0.01
+lr_max = 0.00
 n_lr = 5
 lr_range = torch.logspace(torch.log10(torch.tensor(lr_min)), torch.log10(torch.tensor(lr_max)), n_lr)
 printing = True
 #  Auxiliarryloss :
 AuxilaryLoss_min = 0
 AuxilaryLoss_max = 0.5
-n_AuxilaryLoss = 10
+n_AuxilaryLoss = 5
 AuxilaryLoss_range = torch.linspace(AuxilaryLoss_min, AuxilaryLoss_max, n_AuxilaryLoss)
 
 
+err_class = torch.zeros(runs, n_lr, n_AuxilaryLoss)
+err_digit1 = torch.zeros(runs, n_lr, n_AuxilaryLoss)
+err_digit2 = torch.zeros(runs, n_lr, n_AuxilaryLoss)
+
+for i in range(runs):
+    # downloading the data
+
+    # Downloading test and train. Splitting the train into train and validation (in order to avoid hyperparameters tuning)
+
+    trainVal_images, trainVal_comparison, trainVal_digits, \
+    test_images, test_comparison, test_digits = dlc.generate_pair_sets(3000)
+
+    # split train into train and validation
+    train_images, val_images = split_TrainVal(trainVal_images)
+    train_digits, val_digits = split_TrainVal(trainVal_digits)
+    train_comparison, val_comparison = split_TrainVal(trainVal_comparison)
+
+    train_image1, train_image2 = split_images(train_images)
+    train_digit1, train_digit2 = split_images(train_digits)
+
+    val_image1, val_image2 = split_images(val_images)
+    val_digit1, val_digit2 = split_images(val_digits)
+
+    test_image1, test_image2 = split_images(test_images)
+    test_digit1, test_digit2 = split_images(test_digits)
+
+    batch_size = 100
 
 
 
 
-err_digit1, err_digit2, err_class = Scan_parameters(Whole_Shared_Net, lr_range, AuxilaryLoss_range, False, True, val_images,
-                                                    val_digit1, val_digit2, val_comparison, epochs)
+
+    err_digit1[i], err_digit2[i], err_class[i] = Scan_parameters(Whole_Shared_Net, lr_range, AuxilaryLoss_range, False, True, val_images, val_digit1, val_digit2, val_comparison, epochs)
 
 
-with open("tuning_hyperparameters2.txt", "a") as f:
+with open("tuning_hyperparameters_Whole_Shared_Net.txt", "a") as f:
     print('error on digit 1 : ', file=f)
-    print(err_digit1, file=f)
+    print(torch.mean(err_digit1, 0), file=f)
+    print(torch.std(err_digit1, 0), file=f)
     print('error on digit 2 : ', file=f)
-    print(err_digit2, file=f)
+    print(torch.mean(err_digit2, 0), file=f)
+    print(torch.std(err_digit2, 0), file=f)
     print('error on their comparison : ', file=f)
-    print(err_class, file=f)
+    print(torch.mean(err_class , 0), file=f)
+    print(torch.std(err_class, 0), file=f)
     print('with auxiliary loss : ', file=f)
     print(AuxilaryLoss_range, file=f)
     print( 'with lr : ', file=f)
