@@ -5,6 +5,7 @@ from modules import Linear, Sequential, ReLU, Sigma
 import dlc_practical_prologue as prologue
 from functions import generate_data
 import math
+import matplotlib as plt
 
 '''
 This is the "main" file, and is where the actual architecture is defined.
@@ -32,8 +33,8 @@ features = train_features.size(1)
 nb_samples = train_features.size(0)
 epsilon = 0.1
 eta = .2  #nb_samples is now defined in Sequential()
-batch_size = 100
-epochs = int(2000/(nb_samples/batch_size))
+batch_size = config.batch_size
+epochs = int(config.epochs/(nb_samples/batch_size))
 
 
 # Zeta is to make it work correctly with Sigma activation function.
@@ -51,27 +52,30 @@ architecture = Sequential(Linear(2, 25, ReLU()),
 round = 1
 prev_loss = math.inf
 prev_prev_loss = math.inf
+errors = []
 for epoch in range(epochs):
     for batch_start in range(0, nb_samples, batch_size):
         features = train_features[batch_start:batch_start+batch_size, :]
         labels = train_labels[batch_start:batch_start+batch_size]
-        loss, errors = architecture.forward(train_features, train_labels)
+        tr_loss, tr_error = architecture.forward(train_features, train_labels)
         architecture.backward()
         architecture.update(eta)
-        print(' --- Round ', round, '  Loss: ', loss.item(), '---', ' Errors: ',
-              errors)
-        if prev_loss < loss:
+        loss, error = architecture.forward(test_features, test_labels)
+        print(' --- Epoch ', round, '  Test Loss: ', loss.item(), '---', ' Errors: ',
+              error)
+        if prev_loss < tr_loss:
             eta *= 0.999
-            if prev_prev_loss < loss:
+            if prev_prev_loss < tr_loss:
                 eta *= 0.998
 
+        errors.append(error)
         prev_prev_loss = prev_loss
-        prev_loss = loss
+        prev_loss = tr_loss
 
 
         round += 1
 
 
-loss, errors = architecture.forward(test_features, test_labels)
-print('#### Test Errors: ', errors, ' Test loss: ', loss.item(),
-      'Test Accuracy', float(nb_samples-errors)*100/nb_samples,'%')
+loss, error = architecture.forward(test_features, test_labels)
+print('#### Test Errors: ', error, ' Test loss: ', loss.item(),
+      'Test Accuracy', float(nb_samples-error)*100/nb_samples,'%')

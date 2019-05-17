@@ -8,3 +8,5 @@ show_shapes will print the shapes of the matrices in modules.py
 
 show_calls = None
 show_shapes = None
+batch_size = 100
+epochs = 2000

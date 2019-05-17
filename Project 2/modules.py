@@ -44,6 +44,8 @@ class Linear(Module):
         self.dl_db = torch.empty(self.bias.shape)
         self.activation = act_fn
         self.layer_output = torch.Tensor()
+        if not isinstance(act_fn, Activation):
+            raise RuntimeError('Unacceptable activation function')
 
     def forward(self, input):  # Why *input vs. input?
         '''Applies forward linear transformation on the data'''
