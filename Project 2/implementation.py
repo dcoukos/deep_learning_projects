@@ -63,7 +63,7 @@ for epoch in range(epochs):
         if prev_loss < loss:
             eta *= 0.999
             if prev_prev_loss < loss:
-                eta *= 0.995
+                eta *= 0.998
 
         prev_prev_loss = prev_loss
         prev_loss = loss
