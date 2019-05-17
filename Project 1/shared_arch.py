@@ -132,9 +132,9 @@ class Whole_Shared_Net_Binary(nn.Module):
 class Whole_FC_Net(nn.Module):
     def __init__(self):
         super(Whole_FC_Net, self).__init__()
-        self.lin0 = nn.Linear(392, 256)
-        self.lin1 = nn.Linear(256, 200)
-        self.lin2 = nn.Linear(200, 5)
+        self.lin0 = nn.Linear(392, 190) #was 256 before
+        self.lin1 = nn.Linear(190, 160)
+        self.lin2 = nn.Linear(160, 5)
         self.lin3 = nn.Linear(5, 2)
     def forward(self, x):
         x = x.view(-1, 392)

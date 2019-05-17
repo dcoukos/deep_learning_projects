@@ -55,16 +55,16 @@ def Scan_parameters(model_class, lr_range, AuxilaryLoss_range, printing, full, v
 # Training parameters :
 
 runs = 3
-epochs = 1 #Pao
-lr_min = 1.0000e-04 #Pao proposes 0.01
-lr_max = 1.0000e-04
-n_lr = 1
+epochs = 25 #Pao
+lr_min = 0.0001 #Pao proposes 0.01
+lr_max = 0.1
+n_lr = 10
 lr_range = torch.logspace(torch.log10(torch.tensor(lr_min)), torch.log10(torch.tensor(lr_max)), n_lr)
 printing = True
 #  Auxiliarryloss :
 AuxilaryLoss_min = 0
-AuxilaryLoss_max = 0.5
-n_AuxilaryLoss = 10
+AuxilaryLoss_max = 0
+n_AuxilaryLoss = 1
 AuxilaryLoss_range = torch.linspace(AuxilaryLoss_min, AuxilaryLoss_max, n_AuxilaryLoss)
 
 
@@ -100,16 +100,29 @@ for i in range(runs):
 
 
 
-    err_digit1[i], err_digit2[i], err_class[i] = Scan_parameters(Whole_Shared_Net, lr_range, AuxilaryLoss_range, False, True, val_images, val_digit1, val_digit2, val_comparison, epochs)
+    #err_digit1[i], err_digit2[i], err_class[i] = Scan_parameters(Whole_Shared_Net, lr_range, AuxilaryLoss_range, False, True, val_images, val_digit1, val_digit2, val_comparison, epochs)
+
+err_class[i] = Scan_parameters(Whole_FC_Net, lr_range, AuxilaryLoss_range, False, False, val_images, val_digit1, val_digit2, val_comparison, epochs)
 
 
-with open("tuning_hyperparameters_Whole_Shared_Net_1.0000e-04.txt", "a") as f:
-    print('error on digit 1 : ', file=f)
-    print(torch.mean(err_digit1, 0), file=f)
-    print(torch.std(err_digit1, 0), file=f)
-    print('error on digit 2 : ', file=f)
-    print(torch.mean(err_digit2, 0), file=f)
-    print(torch.std(err_digit2, 0), file=f)
+#
+# with open("tuning_hyperparameters_Shared_Net.txt", "a") as f:
+#     print('error on digit 1 : ', file=f)
+#     print(torch.mean(err_digit1, 0), file=f)
+#     print(torch.std(err_digit1, 0), file=f)
+#     print('error on digit 2 : ', file=f)
+#     print(torch.mean(err_digit2, 0), file=f)
+#     print(torch.std(err_digit2, 0), file=f)
+#     print('error on their comparison : ', file=f)
+#     print(torch.mean(err_class , 0), file=f)
+#     print(torch.std(err_class, 0), file=f)
+#     print('with auxiliary loss : ', file=f)
+#     print(AuxilaryLoss_range, file=f)
+#     print( 'with lr : ', file=f)
+#     print(lr_range, file=f)
+
+with open("tuning_hyperparameters_FC.txt", "a") as f:
+
     print('error on their comparison : ', file=f)
     print(torch.mean(err_class , 0), file=f)
     print(torch.std(err_class, 0), file=f)

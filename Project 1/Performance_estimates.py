@@ -53,6 +53,7 @@ def performance_estimator(model_class, lr, AuxilaryLoss, full = False):
             list_comparison_test_error[i] = compute_nb_errors(model, test_images, test_comparison, batch_size, False)
 
     #converting number of errors into percentage
+
     list_comparison_train_error =  100*list_comparison_train_error/ size_train
     list_digit1_train_error = 100*list_digit1_train_error / size_train
     list_digit2_train_error = 100*list_digit2_train_error / size_train
@@ -81,8 +82,8 @@ def separate_net_performance_estimator(lr, NoiseFree):
     #not very elegant, but our previous function did not adapt well to sepately trainable architectures
 
     batch_size = 100
-    epochs = 1 ##2 modify for testing
-    rounds = 2
+    epochs = 25
+    rounds = 10
 
     list_digit1_train_error = torch.zeros(rounds)
     list_digit2_train_error = torch.zeros(rounds)
@@ -139,11 +140,11 @@ def separate_net_performance_estimator(lr, NoiseFree):
         list_comparison_test_error[i] = compute_nb_errors(net_comparison, test_intermediate, test_comparison, 100)
 
     #converting number of errors into percentage
-    list_comparison_train_error =  list_comparison_train_error/ size_train
-    list_digit1_train_error = list_digit1_train_error / size_train
+    list_comparison_train_error =  100*list_comparison_train_error/ size_train
+    list_digit1_train_error = 100*list_digit1_train_error / size_train
 
-    list_comparison_test_error =  list_comparison_test_error/ size_test
-    list_digit1_test_error = list_digit1_test_error / size_test
+    list_comparison_test_error =  100*list_comparison_test_error/ size_test
+    list_digit1_test_error = 100*list_digit1_test_error / size_test
 
     #returning mean and the standard deviation
 
@@ -158,21 +159,21 @@ def separate_net_performance_estimator(lr, NoiseFree):
 print('Performance Estimates')
 
 print('\nWhole Shared Net')
-lr=0.004
-auxl=0.20
-performance_estimator(Whole_Shared_Net, lr, auxl, full = True) #2DO: choose best learning rate and auxiliary loss # Niels: this was done previously (bar graph) and it gives lr=0.005 and Auxiliary_loss=0.17 optimally 
+lr=0.0032
+auxl=0.28
+performance_estimator(Whole_Shared_Net, lr, auxl, full = True)
 
 print('\nWhole FC Net')
-performance_estimator(Whole_FC_Net, 0.0005, 0.2, full = False) #2DO: choose best learning rate
+performance_estimator(Whole_FC_Net, 0.0001, 0.2, full = False) #2DO: choose best learning rate
 
 print('\nComparison Net Full without Shared Weights')
-performance_estimator(Whole_UnShared_Net, 0.0005, 0.2, full = True) #2DO: choose best learning rate (use same auxiliary loss than whole shared net or i don't know)
+performance_estimator(Whole_UnShared_Net, lr, auxl, full = True) #2DO: choose best learning rate (use same auxiliary loss than whole shared net or i don't know)
 
 print('\nWhole Shared Net Noise Removal')
-performance_estimator(Whole_Shared_Net_NoiseRemoval, 0.0005, 0.2, full = True) #same
+performance_estimator(Whole_Shared_Net_NoiseRemoval, lr, auxl, full = True) #same
 
 print('\nFull Net with Concatenation of already trained parts Noise Free')
-separate_net_performance_estimator(lr= 0.005, NoiseFree= True)
+separate_net_performance_estimator(lr= 0.0005, NoiseFree= True)
 
 print('\nFull Net with Concatenation of already trained parts')
-separate_net_performance_estimator(lr= 0.005, NoiseFree= False)
+separate_net_performance_estimator(lr= 0.0005, NoiseFree= False)
