@@ -12,8 +12,6 @@ from functions import *
     functions.
 '''
 
-# TODO, check what's supposed to happen with prev_x in the first layer.
-# TODO: check gradients
 
 class Activation:
     pass
@@ -85,8 +83,6 @@ class Linear(Module):
         self.dl_db = torch.empty(self.bias.shape)
 
 
-# TODO: possibly compress activations by including backward & forward in
-#           activation superclass
 class ReLU(Module, Activation):
     '''Doc block!'''
     def __init__(self):
@@ -109,7 +105,7 @@ class ReLU(Module, Activation):
             print('   shape dl_dx: ', dl_dx.view(-1, 1).shape)  # Nice! 1D ->2D
             # This makes the multiplication work correctly (doesn't make
             # shape 10x10, but instead (10*1)*(10*1) -> (10*1))
-        return drelu(self.prev_s)*dl_dx  # TODO: maybe this should be drelu
+        return drelu(self.prev_s)*dl_dx
 
 
 class Sigma(Module, Activation):
@@ -154,7 +150,7 @@ class Sequential(Module):
         self.target = target
         output = input
         for module in self.modules:
-            output = module.forward(output) # TODO: check that this actually updates.
+            output = module.forward(output)
         self.output = output
         return loss(output, self.target)
 

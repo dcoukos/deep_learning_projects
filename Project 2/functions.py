@@ -44,7 +44,6 @@ def drelu(x):
 def relu(x):
     return x.clamp(min=0.)
 
-# TODO: check that below forms work, track w/ debug
 
 
 def loss(v, t):
@@ -80,7 +79,7 @@ def round_data(data):
 def dloss(v, t):
     arg_t = split(t)
     labels = cast_values(arg_t)
-    return 2 * (v-labels) # TODO: try t-v, observe behavior.
+    return 2 * (v-labels)
 
 
 def generate_data(nb):
