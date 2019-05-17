@@ -1,0 +1,25 @@
+Whole Shared Net, 10 rounds of 25 epochs : 
+lr=0.005
+auxl=0.17
+train accuracy [%]: digit1 4.31 ± 1.66, digit2 4.49% ± 1.12, comparison 13.69 ± 11.58
+test accuracy [%]: digit1 7.79 ± 1.26, digit2 8.13% ± 1.60, comparison 21.64 ± 7.23
+
+lr=0.0005
+auxl=0.3
+train accuracy [%]: digit1 7.07 ± 1.06, digit2 6.58% ± 1.32, comparison 36.04 ± 9.87
+test accuracy [%]: digit1 11.32 ± 1.24, digit2 11.25% ± 1.42, comparison 37.80 ± 8.30
+
+lr=0.004
+auxl=0.15
+train accuracy [%]: digit1 5.70 ± 1.21, digit2 5.74% ± 1.24, comparison 12.40 ± 4.83
+test accuracy [%]: digit1 9.45 ± 1.49, digit2 9.81% ± 1.18, comparison 20.70 ± 3.48
+
+lr=0.003
+auxl=0.15
+train accuracy [%]: digit1 5.40 ± 1.12, digit2 5.48% ± 1.10, comparison 12.26 ± 11.97
+test accuracy [%]: digit1 9.86 ± 1.14, digit2 9.92% ± 1.32, comparison 20.45 ± 7.40
+
+lr=0.004
+auxl=0.20
+train accuracy [%]: digit1 4.62 ± 1.07, digit2 4.29% ± 1.07, comparison 12.52 ± 5.76
+test accuracy [%]: digit1 8.84 ± 1.33, digit2 8.95% ± 0.91, comparison 19.91 ± 3.45
