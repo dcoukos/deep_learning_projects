@@ -1,6 +1,8 @@
 import dlc_practical_prologue as dlc
 from shared_arch import *
 from torch.nn import functional as F
+from Custom_Utilities import *
+
 
 
 #Downloading test and train. Splitting the train into train and validation (in order to avoid hyperparameters tuning)
@@ -23,16 +25,12 @@ test_image1, test_image2 = split_images(test_images)
 test_digit1, test_digit2 = split_images(test_digits)
 
 
-# from https://discuss.pytorch.org/t/how-do-i-check-the-number-of-parameters-of-a-model/4325/8
-def count_parameters(model):
-    return sum(p.numel() for p in model.parameters() if p.requires_grad)
-
 
 # # #
-# # # #training the SharedWeight_Net
-# print('Shared Weight Net 2')
-# model_shared2 = SharedWeight_Net2()
-# print(count_parameters(model_shared2))
+#training the SharedWeight_Net
+#print('Shared Weight Net 2')
+#model_shared2 = SharedWeight_Net2()
+#print(count_parameters(model_shared2))
 # train_model(model_shared2, train_image1, train_digit1, val_image1, val_digit1, 100, 25, 0.005)
 #
 #
@@ -44,11 +42,11 @@ def count_parameters(model):
 # train_model(net_hot, convert_to_hot(train_digits), train_comparison, convert_to_hot(val_digits), val_comparison, 100, 25, 0.2)
 # # # # # with lr = 0.01 final error 16%, 0.005 31%, 0.05 2.3%, lr = 0.2 0%
 
-# print('Comparison Net Full with Shared Weights')
-# net_full_shared = Whole_Shared_Net()
-# print(count_parameters(net_full_shared))
-# train_model(net_full_shared, train_images, (train_digit1, train_digit2, train_comparison), val_images, (val_digit1, val_digit2, val_comparison), 100, 25, 0.005, full = True)
-#
+print('Comparison Net Full with Shared Weights')
+net_full_shared = Whole_Shared_Net()
+print(count_parameters(net_full_shared))
+train_model(net_full_shared, train_images, (train_digit1, train_digit2, train_comparison), val_images, (val_digit1, val_digit2, val_comparison), 100, 25, 0.005, printing = True, full = True)
+
 # print('Comparison Net Full without Shared Weights')
 # net_full_unshared = Whole_UnShared_Net()
 # print(count_parameters(net_full_unshared))

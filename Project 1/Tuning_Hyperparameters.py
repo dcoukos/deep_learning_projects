@@ -3,8 +3,7 @@ from shared_arch import *
 from torch.nn import functional as F
 
 
-
-#  import numpy as np # For the linspace function only !
+#This file contains the framework we used to tune hyperparameters
 
 def Scan_parameters(model_class, lr_range, AuxilaryLoss_range, printing, full, val_images, val_digit1, val_digit2,
                     val_comparison, epochs):  # horrible function to scan the lr and auxilary loss parameters and return a tensor with the results.

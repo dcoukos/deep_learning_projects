@@ -6,6 +6,7 @@ from torch.nn import functional as F
 import operator
 
 
+#This file contains all the networks we tried, some of which were presented in the report. It also contains the training function.
 
 
 # Code for narrowing to first image
@@ -16,7 +17,7 @@ def split_images(data):
 
 
 class SharedWeight_Net(nn.Module):
-    #takes as input a 14x14 image and returns a tensor with 10 entries for 10 class scores
+    #naive try for a shared_weight architecture: takes as input a 14x14 image and returns a tensor with 10 entries for 10 class scores
     def __init__(self):
         super(SharedWeight_Net, self).__init__()
         self.conv1 = nn.Conv2d(1, 6, kernel_size=(3, 3), stride=(1, 1)) #14->12
@@ -24,7 +25,7 @@ class SharedWeight_Net(nn.Module):
         self.lin1 = nn.Linear(256,120)
         self. lin2 = nn.Linear(120,84)
         self.lin3 = nn.Linear(84,10)
-        # self.out = nn.Linear(20, 1) #TODO: test w/ addtional Output Layer
+
 
     def forward(self, x):
         x = F.relu(self.conv1(x)) #12->12
@@ -41,7 +42,7 @@ class SharedWeight_Net2(nn.Module): # This is different from SharedWeight_Net, i
         self.conv2 = nn.Conv2d(32, 64, kernel_size=(5, 5), stride=(1, 1)) # 12 -> 8
         self.lin1 = nn.Linear(256,200)
         self.lin2 = nn.Linear(200, 10)
-        # self.out = nn.Linear(20, 1) #TODO: test w/ addtional Output Layer
+
 
     def forward(self, x):
         x = F.relu(self.conv1(x)) #12->12
@@ -50,14 +51,14 @@ class SharedWeight_Net2(nn.Module): # This is different from SharedWeight_Net, i
         x = self.lin2(x.view(-1, 200))
         return x
 
-class SharedWeight_Net_Binary(nn.Module): # This is different from SharedWeight_Net, it is inspired more from the model given in the course as example, and has more parameters ( closer to the 70'000 asked in the project description).
+class SharedWeight_Net_Binary(nn.Module): # Same architecture as SharedWeight_Net2, but this time outputting a 5x1 vector. The idea behind this is that 10 digits can be easily encoded in 5 numbers (in binary form)
     def __init__(self):
         super(SharedWeight_Net_Binary, self).__init__()
         self.conv1 = nn.Conv2d(1, 32, kernel_size=(3, 3), stride=(1, 1)) #14->12
         self.conv2 = nn.Conv2d(32, 64, kernel_size=(5, 5), stride=(1, 1)) # 12 -> 8
         self.lin1 = nn.Linear(256,200)
         self.lin2 = nn.Linear(200, 5)
-        # self.out = nn.Linear(20, 1) #TODO: test w/ addtional Output Layer
+
 
     def forward(self, x):
         x = F.relu(self.conv1(x)) #12->12
@@ -78,6 +79,7 @@ class Comparison_Net_Hot(nn.Module):
         x = F.relu(self.lin(x.view(-1, 20)))
         return x
 
+
 class Comparison_Net_Binary(nn.Module):
     # this module takes as input a hot vector of size 20 (with all zeros and 1 at the place of the correct class) from the shared_weight net
     # and returns two activations (that will correspond to "bigger" neuron or to "smaller or/equal" neuron)
@@ -89,10 +91,11 @@ class Comparison_Net_Binary(nn.Module):
         x = F.relu(self.lin(x.view(-1, 10)))
         return x
 
-class Whole_Shared_Net(nn.Module):
+class Whole_Shared_Net(nn.Module): #Principal architecture showed in report
     def __init__(self):
         super(Whole_Shared_Net, self).__init__()
         self.sharedNet = SharedWeight_Net2()
+        #self.comparisonNet = Comparison_Net_Hot()
         self.comparisonNet = Comparison_Net_Hot()
     def forward(self, x):
         images1, images2 = split_images(x)
@@ -102,7 +105,7 @@ class Whole_Shared_Net(nn.Module):
         x = self.comparisonNet(torch.cat((digit1_hot, digit2_hot), dim=1))
         return digit1_hot, digit2_hot, x
 
-class Whole_Shared_Net_NoiseRemoval(nn.Module):
+class Whole_Shared_Net_NoiseRemoval(nn.Module): #Variant with noise removal
     def __init__(self):
         super(Whole_Shared_Net_NoiseRemoval, self).__init__()
         self.sharedNet = SharedWeight_Net2()
@@ -116,7 +119,7 @@ class Whole_Shared_Net_NoiseRemoval(nn.Module):
         return digit1_hot, digit2_hot, x
 
 
-class Whole_Shared_Net_Binary(nn.Module):
+class Whole_Shared_Net_Binary(nn.Module): #Variant with 5x1 intermediate
     def __init__(self):
         super(Whole_Shared_Net_Binary, self).__init__()
         self.sharedNet = SharedWeight_Net_Binary()
@@ -129,7 +132,7 @@ class Whole_Shared_Net_Binary(nn.Module):
         return x
 
 
-class Whole_FC_Net(nn.Module):
+class Whole_FC_Net(nn.Module): #Baseline architecture with 5x1 intermediate
     def __init__(self):
         super(Whole_FC_Net, self).__init__()
         self.lin0 = nn.Linear(392, 190) #was 256 before
@@ -144,7 +147,7 @@ class Whole_FC_Net(nn.Module):
         x = F.relu(self.lin3(x))
         return x
 
-class Whole_UnShared_Net(nn.Module):
+class Whole_UnShared_Net(nn.Module): #Variant with no shared weights
     def __init__(self):
         super(Whole_UnShared_Net, self).__init__()
         self.sharedNet1 = SharedWeight_Net2()
@@ -154,7 +157,6 @@ class Whole_UnShared_Net(nn.Module):
         images1, images2 = split_images(x)
         digit1_hot = self.sharedNet1(images1)
         digit2_hot = self.sharedNet2(images2)
-        #before x = self.comparisonNet(torch.cat((digit1_hot, digit2_hot), dim=1))
         x = self.comparisonNet(torch.cat((digit1_hot, digit2_hot), dim=1))
         return digit1_hot, digit2_hot, x
 

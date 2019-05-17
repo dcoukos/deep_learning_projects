@@ -2,12 +2,13 @@ import torch
 from shared_arch import *
 import dlc_practical_prologue as dlc
 
+#This is the file used to provide our performance estimates
 
 def performance_estimator(model_class, lr, AuxilaryLoss, full = False):
 
     batch_size = 100
-    epochs = 25 ##2 modify for testing
-    rounds = 10
+    epochs = 50 ##2 modify for testing
+    rounds = 3
 
     list_digit1_train_error = torch.zeros(rounds)
     list_digit2_train_error = torch.zeros(rounds)
@@ -160,17 +161,18 @@ print('Performance Estimates')
 
 print('\nWhole Shared Net')
 lr=0.0032
-auxl=0.28
+#auxl=0.28
+auxl=0.1
 performance_estimator(Whole_Shared_Net, lr, auxl, full = True)
 
 print('\nWhole FC Net')
-performance_estimator(Whole_FC_Net, 0.0001, 0.2, full = False) #2DO: choose best learning rate
+performance_estimator(Whole_FC_Net, 0.0001, 0.2, full = False)
 
 print('\nComparison Net Full without Shared Weights')
-performance_estimator(Whole_UnShared_Net, lr, auxl, full = True) #2DO: choose best learning rate (use same auxiliary loss than whole shared net or i don't know)
+performance_estimator(Whole_UnShared_Net, lr, auxl, full = True)
 
 print('\nWhole Shared Net Noise Removal')
-performance_estimator(Whole_Shared_Net_NoiseRemoval, lr, auxl, full = True) #same
+performance_estimator(Whole_Shared_Net_NoiseRemoval, lr, auxl, full = True)
 
 print('\nFull Net with Concatenation of already trained parts Noise Free')
 separate_net_performance_estimator(lr= 0.0005, NoiseFree= True)
