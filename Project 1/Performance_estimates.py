@@ -8,7 +8,7 @@ def performance_estimator(model_class, lr, AuxilaryLoss, full = False):
 
     batch_size = 100
     epochs = 50 ##2 modify for testing
-    rounds = 3
+    rounds = 10
 
     list_digit1_train_error = torch.zeros(rounds)
     list_digit2_train_error = torch.zeros(rounds)
@@ -83,7 +83,7 @@ def separate_net_performance_estimator(lr, NoiseFree):
     #not very elegant, but our previous function did not adapt well to sepately trainable architectures
 
     batch_size = 100
-    epochs = 25
+    epochs = 50
     rounds = 10
 
     list_digit1_train_error = torch.zeros(rounds)
@@ -161,8 +161,8 @@ print('Performance Estimates')
 
 print('\nWhole Shared Net')
 lr=0.0032
-#auxl=0.28
-auxl=0.1
+#auxl=0.28 #0.1
+auxl=0.28
 performance_estimator(Whole_Shared_Net, lr, auxl, full = True)
 
 print('\nWhole FC Net')
