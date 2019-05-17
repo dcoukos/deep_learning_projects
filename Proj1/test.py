@@ -7,8 +7,8 @@ import dlc_practical_prologue as dlc
 def performance_estimator(model_class, lr, AuxilaryLoss, full = False):
 
     batch_size = 100
-    epochs = 50 ##2 modify for testing
-    rounds = 10
+    epochs = 1 ##2 modify for testing
+    rounds = 1
 
     list_digit1_train_error = torch.zeros(rounds)
     list_digit2_train_error = torch.zeros(rounds)
@@ -83,8 +83,8 @@ def separate_net_performance_estimator(lr, NoiseFree):
     #not very elegant, but our previous function did not adapt well to sepately trainable architectures
 
     batch_size = 100
-    epochs = 50
-    rounds = 10
+    epochs = 1
+    rounds = 1
 
     list_digit1_train_error = torch.zeros(rounds)
     list_digit2_train_error = torch.zeros(rounds)
