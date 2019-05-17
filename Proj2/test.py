@@ -2,7 +2,6 @@ import config
 # from modules import Linear
 import torch
 from modules import Linear, Sequential, ReLU, Sigma
-import dlc_practical_prologue as prologue
 from functions import generate_data
 import math
 import matplotlib as plt
