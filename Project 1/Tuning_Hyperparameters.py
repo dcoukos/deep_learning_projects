@@ -56,15 +56,15 @@ def Scan_parameters(model_class, lr_range, AuxilaryLoss_range, printing, full, v
 
 runs = 3
 epochs = 1 #Pao
-lr_min = 0.00001 #Pao proposes 0.01
-lr_max = 0.00
-n_lr = 5
+lr_min = 1.0000e-04 #Pao proposes 0.01
+lr_max = 1.0000e-04
+n_lr = 1
 lr_range = torch.logspace(torch.log10(torch.tensor(lr_min)), torch.log10(torch.tensor(lr_max)), n_lr)
 printing = True
 #  Auxiliarryloss :
 AuxilaryLoss_min = 0
 AuxilaryLoss_max = 0.5
-n_AuxilaryLoss = 5
+n_AuxilaryLoss = 10
 AuxilaryLoss_range = torch.linspace(AuxilaryLoss_min, AuxilaryLoss_max, n_AuxilaryLoss)
 
 
@@ -103,7 +103,7 @@ for i in range(runs):
     err_digit1[i], err_digit2[i], err_class[i] = Scan_parameters(Whole_Shared_Net, lr_range, AuxilaryLoss_range, False, True, val_images, val_digit1, val_digit2, val_comparison, epochs)
 
 
-with open("tuning_hyperparameters_Whole_Shared_Net.txt", "a") as f:
+with open("tuning_hyperparameters_Whole_Shared_Net_1.0000e-04.txt", "a") as f:
     print('error on digit 1 : ', file=f)
     print(torch.mean(err_digit1, 0), file=f)
     print(torch.std(err_digit1, 0), file=f)

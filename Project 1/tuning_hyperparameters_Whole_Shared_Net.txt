@@ -11,3 +11,41 @@ with auxiliary loss :
 tensor([0.0000, 0.5000])
 with lr : 
 tensor([1.0000e-05])
+error on digit 1 : 
+tensor([[90.6000, 76.3500],
+        [90.5500, 78.5000]])
+tensor([[ 0.2828,  5.4447],
+        [ 0.9192, 18.2434]])
+error on digit 2 : 
+tensor([[88.8000, 75.6500],
+        [89.8000, 78.6000]])
+tensor([[ 1.4142,  7.1418],
+        [ 0.0000, 16.6877]])
+error on their comparison : 
+tensor([[44.2000, 45.2000],
+        [45.6000, 57.6500]])
+tensor([[0.1414, 6.6468],
+        [0.5657, 4.0305]])
+with auxiliary loss : 
+tensor([0.0000, 0.5000])
+with lr : 
+tensor([1.0000e-04, 1.0000e-01])
+error on digit 1 : 
+tensor([[90.6000, 76.3500],
+        [90.5500, 78.5000]])
+tensor([[ 0.2828,  5.4447],
+        [ 0.9192, 18.2434]])
+error on digit 2 : 
+tensor([[88.8000, 75.6500],
+        [89.8000, 78.6000]])
+tensor([[ 1.4142,  7.1418],
+        [ 0.0000, 16.6877]])
+error on their comparison : 
+tensor([[44.2000, 45.2000],
+        [45.6000, 57.6500]])
+tensor([[0.1414, 6.6468],
+        [0.5657, 4.0305]])
+with auxiliary loss : 
+tensor([0.0000, 0.5000])
+with lr : 
+tensor([1.0000e-04, 1.0000e-01])

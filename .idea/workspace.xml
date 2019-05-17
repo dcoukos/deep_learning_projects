@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="56ebdc93-c902-4a02-ab11-cfcdf906f331" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Project 1/Tuning_Hyperparameters.py" beforeDir="false" afterPath="$PROJECT_DIR$/Project 1/Tuning_Hyperparameters.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project 1/tuning_hyperparameters_Whole_Shared_Net.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Project 1/tuning_hyperparameters_Whole_Shared_Net.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -15,7 +15,7 @@
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/deep_learning_projects$Testing.coverage" NAME="Testing Coverage Results" MODIFIED="1557482301743" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Project 1/Version 2" />
     <SUITE FILE_PATH="coverage/deep_learning_projects$Comparison_architectures__1_.coverage" NAME="Comparison_architectures (1) Coverage Results" MODIFIED="1557906528394" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Project 1" />
-    <SUITE FILE_PATH="coverage/deep_learning_projects$Tuning_Hyperparameters.coverage" NAME="Tuning_Hyperparameters Coverage Results" MODIFIED="1558095468988" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Project 1" />
+    <SUITE FILE_PATH="coverage/deep_learning_projects$Tuning_Hyperparameters.coverage" NAME="Tuning_Hyperparameters Coverage Results" MODIFIED="1558097229726" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Project 1" />
     <SUITE FILE_PATH="coverage/deep_learning_projects$Performance_estimates.coverage" NAME="Performance_estimates Coverage Results" MODIFIED="1558092302933" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Project 1" />
     <SUITE FILE_PATH="coverage/deep_learning_projects$Little_tests.coverage" NAME="Little_tests Coverage Results" MODIFIED="1555674967105" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/deep_learning_projects$Comparison_architectures.coverage" NAME="Comparison_architectures Coverage Results" MODIFIED="1557499052398" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -50,7 +50,7 @@
         <entry file="file://$PROJECT_DIR$/Project 1/Performance_estimates.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="131">
-              <caret line="163" column="26" lean-forward="true" selection-start-line="163" selection-start-column="26" selection-end-line="163" selection-end-column="26" />
+              <caret line="165" column="26" lean-forward="true" selection-start-line="165" selection-start-column="26" selection-end-line="165" selection-end-column="26" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -88,13 +88,18 @@
       <file leaf-file-name="Tuning_Hyperparameters.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Project 1/Tuning_Hyperparameters.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="179">
-              <caret line="16" column="23" lean-forward="true" selection-start-line="16" selection-start-column="23" selection-end-line="16" selection-end-column="23" />
+            <state relative-caret-position="109">
+              <caret line="58" column="14" lean-forward="true" selection-start-line="58" selection-start-column="14" selection-end-line="58" selection-end-column="15" />
               <folding>
                 <element signature="e#0#36#0" expanded="true" />
               </folding>
             </state>
           </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="deep_learning_projects.pstat" pinned="false" current-in-tab="false">
+        <entry file="mock:///Users/Paola/Library/Caches/PyCharm2018.1/snapshots/deep_learning_projects.pstat">
+          <provider selected="true" editor-type-id="profiler-session-editor" />
         </entry>
       </file>
       <file leaf-file-name="tuning_hyperparameters_Whole_Shared_Net.txt" pinned="false" current-in-tab="false">
@@ -356,13 +361,14 @@
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.50080776" side_tool="true" weight="0.2587519" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Python Console" order="7" weight="0.14459665" />
+      <window_info active="true" anchor="bottom" id="Python Console" order="7" visible="true" weight="0.35159817" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.41704717" />
+      <window_info anchor="right" id="Coverage" side_tool="true" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32876712" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.29483038" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
-      <window_info active="true" anchor="bottom" id="Find" order="1" visible="true" weight="0.20395738" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.20395738" />
       <window_info anchor="right" id="SciView" order="3" visible="true" weight="0.07754443" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
@@ -385,21 +391,21 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/shared_arch.py</url>
+          <url />
           <line>79</line>
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Project 1/Version 2/Classes_and_functions.py</url>
+          <url />
           <line>30</line>
           <option name="timeStamp" value="19" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Project 1/Version 2/Classes_and_functions.py</url>
+          <url />
           <line>31</line>
           <option name="timeStamp" value="26" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Project 1/Version 2/Classes_and_functions.py</url>
+          <url />
           <line>29</line>
           <option name="timeStamp" value="27" />
         </line-breakpoint>
@@ -430,7 +436,7 @@
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>__py_debug_temp_var_988004670.'sharedNet' (4580932976)</expression-string>
+        <expression-string />
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
@@ -450,12 +456,12 @@
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>model._modules.'sharedNet' (4580932976).conv2._parameters.'weight'(4346049456)._grad</expression-string>
+        <expression-string />
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>model._modules.'sharedNet' (4580932976).conv2._parameters.'weight' (4346049456)._grad</expression-string>
+        <expression-string />
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
@@ -467,47 +473,47 @@
     </expressions>
     <expressions id="evaluateExpression">
       <expression>
-        <expression-string>torch.cat((torch.argmax(model_shared3(train_image1).detach(), dim = 1), torch.argmax(model_shared3(train_image2).detach(), dim=1)), dim = 1)</expression-string>
+        <expression-string />
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>torch.cat((torch.argmax(model_shared3(train_image1).detach(), dim = 1), torch.argmax(model_shared3(train_image2).detach())), dim = 1)</expression-string>
+        <expression-string />
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>torch.cat((torch.argmax(model_shared3(train_image1).detach(), dim = 1), torch.argmax(model_shared3(train_image1).detach())), dim = 1)</expression-string>
+        <expression-string />
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>torch.cat((torch.argmax(model_shared3(train_image1).detach(), dim = 1), torch.argmax(model_shared3(train_image1).detach())), dim = 1))</expression-string>
+        <expression-string />
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>torch.cat((torch.argmax(model_shared3(train_image1).detach(), dim = 1), torch.argmax(model_shared3(train_image1).detach()), dim = 1))</expression-string>
+        <expression-string />
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>torch.cat(torch.argmax(model_shared3(train_image1).detach(), dim = 1), torch.argmax(model_shared3(train_image1).detach(), dim = 1))</expression-string>
+        <expression-string />
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>torch.argmax(model_shared3(train_image1).detach(), dim = 1)</expression-string>
+        <expression-string />
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>A = torch.cat((torch.argmax(model_shared3(train_image1).detach(), dim = 1), torch.argmax(model_shared3(train_image2).detach(), dim = 1)))</expression-string>
+        <expression-string />
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>A = torch.cat((torch.argmax(model_shared3(train_image1).detach(), dim = 1), torch.argmax(model_shared3(train_image2).detach(), dim = 1)</expression-string>
+        <expression-string />
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
@@ -816,7 +822,7 @@
     <entry file="file://$PROJECT_DIR$/Project 1/Performance_estimates.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="131">
-          <caret line="163" column="26" lean-forward="true" selection-start-line="163" selection-start-column="26" selection-end-line="163" selection-end-column="26" />
+          <caret line="165" column="26" lean-forward="true" selection-start-line="165" selection-start-column="26" selection-end-line="165" selection-end-column="26" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>
@@ -832,8 +838,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Project 1/Tuning_Hyperparameters.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="16" column="23" lean-forward="true" selection-start-line="16" selection-start-column="23" selection-end-line="16" selection-end-column="23" />
+        <state relative-caret-position="109">
+          <caret line="58" column="14" lean-forward="true" selection-start-line="58" selection-start-column="14" selection-end-line="58" selection-end-column="15" />
           <folding>
             <element signature="e#0#36#0" expanded="true" />
           </folding>
